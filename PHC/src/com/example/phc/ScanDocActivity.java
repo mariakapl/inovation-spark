@@ -35,6 +35,8 @@ public class ScanDocActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scan_doc);
 		Intent intent = getIntent();
+		
+		mAlbumStorageDirFactory = new BaseAlbumDirFactory();
 	}
 
 	@Override
