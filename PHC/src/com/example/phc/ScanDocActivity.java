@@ -8,6 +8,7 @@ import java.util.Date;
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,6 +36,9 @@ public class ScanDocActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scan_doc);
 		Intent intent = getIntent();
+		
+		mImageView = (ImageView) findViewById(R.id.imageView1);
+		mImageBitmap = null;
 		
 		mAlbumStorageDirFactory = new BaseAlbumDirFactory();
 	}
@@ -127,9 +131,60 @@ public class ScanDocActivity extends ActionBarActivity {
 	}
 	
 	private void handleSmallCameraPhoto(Intent intent) {
-		Bundle extras = intent.getExtras();
-		mImageBitmap = (Bitmap) extras.get("data");
-		mImageView.setImageBitmap(mImageBitmap);
+		//Bundle extras = intent.getExtras();
+		//mImageBitmap = (Bitmap) extras.get("data");
+		//mImageView.setImageBitmap(mImageBitmap);
+		//mImageView.setVisibility(View.VISIBLE);
+		
+		if (mCurrentPhotoPath != null) {
+			setPic();
+			galleryAddPic();
+			mCurrentPhotoPath = null;
+		}
+		
+	}
+	
+	
+	private void galleryAddPic() {
+	    Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+		File f = new File(mCurrentPhotoPath);
+	    Uri contentUri = Uri.fromFile(f);
+	    mediaScanIntent.setData(contentUri);
+	    this.sendBroadcast(mediaScanIntent);
+}
+	
+	private void setPic() {
+
+		/* There isn't enough memory to open up more than a couple camera photos */
+		/* So pre-scale the target bitmap into which the file is decoded */
+
+		/* Get the size of the ImageView */
+		int targetW = mImageView.getWidth();
+		int targetH = mImageView.getHeight();
+
+		/* Get the size of the image */
+		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+		bmOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+		int photoW = bmOptions.outWidth;
+		int photoH = bmOptions.outHeight;
+		
+		/* Figure out which way needs to be reduced less */
+		int scaleFactor = 1;
+		if ((targetW > 0) || (targetH > 0)) {
+			scaleFactor = Math.min(photoW/targetW, photoH/targetH);	
+		}
+
+		/* Set bitmap options to scale the image decode target */
+		bmOptions.inJustDecodeBounds = false;
+		bmOptions.inSampleSize = scaleFactor;
+		bmOptions.inPurgeable = true;
+
+		/* Decode the JPEG file into a Bitmap */
+		Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+		
+		/* Associate the Bitmap to the ImageView */
+		mImageView.setImageBitmap(bitmap);
 		mImageView.setVisibility(View.VISIBLE);
 	}
 }
