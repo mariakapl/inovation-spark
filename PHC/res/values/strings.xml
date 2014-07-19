@@ -10,4 +10,5 @@
     <string name="title_activity_scan_doc">ScanDocActivity</string>
     <string name="photo_doc">Take Picture</string>
 	<string name="album_name">CameraSample</string>
+	 <string name="text_hint">OCRed Text will appear here</string>
 </resources>
