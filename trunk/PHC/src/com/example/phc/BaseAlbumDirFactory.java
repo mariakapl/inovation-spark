@@ -6,6 +6,7 @@ import android.os.Environment;
 
 abstract class AlbumStorageDirFactory {
 	public abstract File getAlbumStorageDir(String albumName);
+	public abstract String getAlbumStorageDirName(String albumName);
 }
 
 public final class BaseAlbumDirFactory extends AlbumStorageDirFactory {
@@ -20,5 +21,14 @@ public final class BaseAlbumDirFactory extends AlbumStorageDirFactory {
 				+ CAMERA_DIR
 				+ albumName
 		);
+	}
+
+	@Override
+	public String getAlbumStorageDirName(String albumName) {
+		Environment.getExternalStorageState();
+		
+				return Environment.getExternalStorageDirectory()
+				+ CAMERA_DIR
+				+ albumName + "/";
 	}
 }
