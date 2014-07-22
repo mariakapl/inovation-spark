@@ -27,31 +27,32 @@ public class SecondOpinionFragment extends ListFragment {
 	    
         adapter=  new MyAdpater(getActivity(),arr);
         
-        ListView listView1 = (ListView)rootView.findViewById(android.R.id.list);
+        listView1 = (ListView)rootView.findViewById(android.R.id.list);
         
         listView1.setAdapter(adapter);
  
 		// Click event for single list row
         listView1.setOnItemClickListener(new OnItemClickListener() {
  
-        	 Toast t = Toast.makeText(getActivity(), "Message",
-        		        Toast.LENGTH_SHORT);
         	
         	 
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				
-				Object item = "lala";//listView1.getItemAtPosition(position);
-				
-				Intent intent = new Intent(getActivity(), DoctorNamesActivity.class);
-				intent.putExtra("DOCTOR_TYPE", (String)item);
-				startActivity(intent);
 			}
         });
         
         return rootView;
     }
     
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+      // do something with the data
+		Object item = listView1.getItemAtPosition(position);
+		
+		Intent intent = new Intent(getActivity(), DoctorNamesActivity.class);
+		intent.putExtra("DOCTOR_TYPE", (String)item);
+		startActivity(intent);
+    }
     
 }
