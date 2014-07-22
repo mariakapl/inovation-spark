@@ -4,65 +4,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- The main content view -->
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/db1_root"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:padding="6dip">
     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:orientation="vertical" >
-         <Button
-		        android:id="@+id/scandoc"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:layout_marginTop="20dp"
-		        android:layout_marginRight="20dp"
-			    android:layout_marginLeft="20dp"
-		        android:text="@string/scan_doc"
-		        android:textSize="25sp" 
-		        android:background="@drawable/my_button"
-			    android:paddingRight="25dp"
-			    android:paddingLeft="25dp" 
-			    android:onClick="scanDocument" >
-	    </Button>
-        <Button
-	        android:id="@+id/shareprotfolio"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center"
-	        android:layout_marginTop="20dp"
-	        android:layout_marginRight="20dp"
-	        android:layout_marginLeft="20dp"
-	        android:text="@string/share_protfolio"
-	        android:textSize="25sp" 
-	        android:background="@drawable/my_button"
-		    android:paddingRight="25dp"
-		    android:paddingLeft="25dp"/>
-        <Button
-	        android:id="@+id/healthnews"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center"
-	        android:layout_marginTop="20dp"
-	        android:layout_marginRight="20dp"
-	        android:layout_marginLeft="20dp"
-	        android:text="@string/health_news"
-	        android:textSize="25sp" 
-	        android:background="@drawable/my_button"
-		    android:paddingRight="25dp"
-		    android:paddingLeft="25dp" />
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        
+        <Button android:id="@+id/home_btn_feature1"
+            style="@style/HomeButton"
+            android:onClick="scanDocument"
+            android:text="@string/title_scanDoc"
+            android:drawableTop="@drawable/home_button1"/>
+        
+        <Button android:id="@+id/home_btn_feature2"
+            style="@style/HomeButton"
+            android:text="@string/title_onlineRecords"
+            android:drawableTop="@drawable/home_button2"/>
     </LinearLayout>
-    
-    </FrameLayout>
-    
-    <ListView android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#111"/>
-</android.support.v4.widget.DrawerLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        
+        <Button android:id="@+id/home_btn_feature3"
+            style="@style/HomeButton"
+            android:onClick="onClickFeature"
+            android:text="@string/title_records"
+            android:drawableTop="@drawable/home_button3"/>
+        
+        <Button android:id="@+id/home_btn_feature4"
+            style="@style/HomeButton"
+            android:onClick="onClickShare"
+            android:text="@string/title_share"
+            android:drawableTop="@drawable/home_button4"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        
+        
+        <Button android:id="@+id/home_btn_feature5"
+            style="@style/HomeButton"
+            android:onClick="onClickHealthportal"
+            android:text="@string/title_healthPortal"
+            android:drawableTop="@drawable/home_button5"/>
+        <Button android:id="@+id/home_btn_feature6"
+            style="@style/HomeButton"
+            android:text="@string/title_appointment"
+            android:drawableTop="@drawable/home_button6"/>
+    </LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>  
+</android.support.v4.widget.DrawerLayout>   
