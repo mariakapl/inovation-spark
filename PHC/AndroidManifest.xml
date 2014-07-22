@@ -2,10 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.phc"
     android:versionCode="1"
-    android:versionName="1.0" >
-
+    android:versionName="1.0" 
+	>
+	
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
      <uses-feature android:name="android.hardware.camera"
@@ -34,6 +35,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.myfirstapp.MainActivity" />
         </activity>
+        <activity
+            android:name="com.example.phc.ShareActivity"
+            android:label="Share"
+            android:parentActivityName="com.example.phc.ShareActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myfirstapp.MainActivity" />
+        </activity>
+        <activity android:name="HealthPortalActivity"></activity>
+        <activity android:name="DoctorNamesActivity"></activity>
     </application>
 
 </manifest>

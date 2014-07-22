@@ -48,4 +48,21 @@ public class MainActivity extends ActionBarActivity {
     //	intent.putExtra(EXTRA_MESSAGE, message);
     	startActivity(intent);
     }
+    
+    public void onClickShare(View view)
+    {
+        // Do something in response to button
+    	Intent intent = new Intent(this, ShareActivity.class);
+    	//EditText editText = (EditText) findViewById(R.id.scandoc);
+    	//String message = editText.getText().toString();
+    //	intent.putExtra(EXTRA_MESSAGE, message);
+    	startActivity(intent);
+    }
+    
+    public void onClickHealthportal(View view)
+    {
+        // Do something in response to button
+    	Intent intent = new Intent(this, HealthPortalActivity.class);
+    	startActivity(intent);
+    }
 }
