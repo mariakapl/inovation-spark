@@ -5,13 +5,15 @@
     android:orientation="vertical" >
     
     
-      <TextView
-        android:id="@+id/names"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Forums"
-        android:textSize="20dp"
-        android:layout_centerInParent="true"/>
+   <ListView
+       android:id="@android:id/list"
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent"
+       android:divider="#87CEFA"
+       android:dividerHeight="1dp"
+       android:bottom="1dp"
+       android:listSelector="@drawable/list_selector"
+       android:minHeight="?android:attr/listPreferredItemHeightSmall" 
+       />
 
 </LinearLayout>
