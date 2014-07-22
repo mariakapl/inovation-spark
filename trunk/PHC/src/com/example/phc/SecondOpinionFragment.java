@@ -23,7 +23,7 @@ public class SecondOpinionFragment extends ListFragment {
  
         View rootView = inflater.inflate(R.layout.second_opinion, container, false);
         
-	    String[] arr = new String[]{"Family medicine","Cardoplogy","Otolaryngology", "Oncology"};
+	    String[] arr = new String[]{"Family Medicine","Cardiology","Otolaryngology", "Oncology"};
 	    
         adapter=  new MyAdpater(getActivity(),arr);
         

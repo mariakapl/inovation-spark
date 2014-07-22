@@ -37,8 +37,6 @@ public class ShareActivity extends ActionBarActivity{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				int x =5;
-				x += 1;
 			}
         });
 		
