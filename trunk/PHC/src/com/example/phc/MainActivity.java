@@ -1,5 +1,6 @@
 package com.example.phc;
 
+import edu.sfsu.cs.orange.ocr.CaptureActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -42,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
     public void scanDocument(View view)
     {
         // Do something in response to button
-    	Intent intent = new Intent(this, ScanDocActivity.class);
+    	Intent intent = new Intent(this, CaptureActivity.class);
     	//EditText editText = (EditText) findViewById(R.id.scandoc);
     	//String message = editText.getText().toString();
     //	intent.putExtra(EXTRA_MESSAGE, message);
