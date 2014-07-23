@@ -12,6 +12,8 @@
      <uses-feature android:name="android.hardware.camera"
                   android:required="true" />
      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+       <uses-permission android:name="android.permission.CAMERA"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
      
     <application
         android:allowBackup="true"
@@ -45,6 +47,27 @@
         </activity>
         <activity android:name="HealthPortalActivity"></activity>
         <activity android:name="DoctorNamesActivity"></activity>
+            <activity android:name="edu.sfsu.cs.orange.ocr.CaptureActivity"
+              android:screenOrientation="landscape"
+              android:configChanges="orientation|keyboardHidden|screenSize"
+              android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+              android:windowSoftInputMode="stateAlwaysHidden"              
+              >
+      <intent-filter>
+        <!--action android:name="android.intent.action.MAIN"/-->
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+      </activity>
+    <activity android:name="edu.sfsu.cs.orange.ocr.HelpActivity"
+              android:screenOrientation="user">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
+    </activity>
+    
+    <activity android:name="edu.sfsu.cs.orange.ocr.PreferencesActivity" />
+        
     </application>
 
 </manifest>

@@ -11,4 +11,19 @@
 
     <item type="id" name="blocks_ruler" />
     <item type="id" name="blocks_now" />
+    
+      <item type="id" name="decode"/>
+  <item type="id" name="decode_failed"/>
+  <item type="id" name="decode_succeeded"/>
+
+  <item type="id" name="ocr_continuous_decode"/>
+  <item type="id" name="ocr_continuous_decode_failed"/>
+  <item type="id" name="ocr_continuous_decode_succeeded"/>
+  <item type="id" name="ocr_decode"/>
+  <item type="id" name="ocr_decode_failed"/>
+  <item type="id" name="ocr_decode_succeeded"/>
+  
+  <item type="id" name="quit"/>
+  <item type="id" name="restart_preview"/>
+    
 </resources>
