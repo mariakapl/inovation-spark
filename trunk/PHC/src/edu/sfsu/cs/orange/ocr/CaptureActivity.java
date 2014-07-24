@@ -967,7 +967,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
       int currentVersion = info.versionCode;
       SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-      prefs.edit().putInt(PreferencesActivity.KEY_HELP_VERSION_SHOWN, 0).commit();
       int lastVersion = prefs.getInt(PreferencesActivity.KEY_HELP_VERSION_SHOWN, 0);
       if (lastVersion == 0) {
         isFirstLaunch = true;
