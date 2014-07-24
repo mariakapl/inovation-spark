@@ -61,6 +61,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.phc.R;
+import com.example.phc.TagActivity;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import edu.sfsu.cs.orange.ocr.camera.CameraManager;
@@ -76,6 +77,10 @@ import edu.sfsu.cs.orange.ocr.language.LanguageCodeHelper;
  */
 public final class CaptureActivity extends Activity implements SurfaceHolder.Callback, 
   ShutterButton.OnShutterButtonListener {
+
+  public static final String OCR_RESULT_TEXT_EXTRA = "ocr_result_text";
+
+  public static final String BITMAP_EXTRA = "bitmap";
 
   private static final String TAG = CaptureActivity.class.getSimpleName();
   
@@ -730,6 +735,10 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     progressView.setVisibility(View.GONE);
     setProgressBarVisibility(false);
     
+    Intent tagDoc = new Intent(this, TagActivity.class);
+    tagDoc.putExtra(OCR_RESULT_TEXT_EXTRA, ocrResult.getText());
+    tagDoc.putExtra(BITMAP_EXTRA, lastBitmap);
+    startActivity(tagDoc);
     return true;
   }
   
