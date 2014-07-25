@@ -27,7 +27,7 @@
     <string name="title_share">Shared Docs</string>
     <string name="title_healthPortal">Health Portal</string>
     <string name="title_appointment">Set Appointment</string>
-    <string name="title_activity_tag">Tag Y\'er Doc</string>
+    <string name="title_activity_tag">Tag Your Document</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>
