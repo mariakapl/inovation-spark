@@ -17,6 +17,8 @@ import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
 import phc.objects.ScannedDoc;
 
+
+
 public class DocStorage implements IDocStorage {
 
 	private File _storageDir;
@@ -25,6 +27,8 @@ public class DocStorage implements IDocStorage {
 	private HashMap<String, List<String>> _docsByTag;	// tag -> doc ids
 	private HashMap<String, DocResult> _docsById;		// doc id -> doc
 	private HashMap<String, List<String>> _tagsByDoc;	// doc id -> tags
+	
+	private TagTree _tagsOfTag; //for each tag, get the under tags - not good! should be tree or something
 	
 	public DocStorage(Context context)
 	{
@@ -36,23 +40,7 @@ public class DocStorage implements IDocStorage {
 		readTagIndex(_tagIndex);
 	}
 	
-	public static List<String> readTextFile(File file)
-	{
-		List<String> lines = new ArrayList<String>();
-		try {
-		    BufferedReader br = new BufferedReader(new FileReader(file));
-		    String line;
-		    while ((line = br.readLine()) != null)
-		    	lines.add(line);
-		    br.close();
-		}
-		catch (IOException e) {
-			return null;
-		}
-		return lines;
-		
-	}
-	
+
 	private void readTagIndex(File tagIndex) {
 		_docsByTag = new HashMap<String, List<String>>();
 		_docsById = new HashMap<String, DocResult>();
@@ -75,6 +63,24 @@ public class DocStorage implements IDocStorage {
 		}
 	}
 
+	
+	public static List<String> readTextFile(File file)
+	{
+		List<String> lines = new ArrayList<String>();
+		try {
+		    BufferedReader br = new BufferedReader(new FileReader(file));
+		    String line;
+		    while ((line = br.readLine()) != null)
+		    	lines.add(line);
+		    br.close();
+		}
+		catch (IOException e) {
+			return null;
+		}
+		return lines;
+		
+	}
+	
 	private void addDocToTag(String tag, String docId) {
 		if (! _docsByTag.containsKey(tag))
 			_docsByTag.put(tag, new ArrayList<String>());
@@ -105,6 +111,14 @@ public class DocStorage implements IDocStorage {
 	@Override
 	public Collection<String> getExistingTags() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Collection<String> getTagsForTag(String tag) {
+		// TODO Auto-generated method stub
+		//return _tagsOfTag.get(tag);
 		return null;
 	}
 

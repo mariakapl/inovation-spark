@@ -16,4 +16,7 @@ public interface IDocStorage
 	Collection<DocResult> queryDocsByTags(Collection<String> tags);
 	// Get the (flat) list of tags
 	Collection<String> getExistingTags();
+	
+	//Get all the tags "under" a specific tag
+	Collection<String> getTagsForTag(String tag);
 }

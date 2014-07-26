@@ -1,20 +1,35 @@
 package phc.objects;
 
+import java.util.Calendar;
+
 public class DocResult {
 
-	private ScannedDoc _scannedDoc;
-	private int _id;
+	private ScannedDoc scannedDoc;
+	private int id;
+	private String name;
+	private Calendar date;
+	private boolean shared; //indicate if the document is shared
 	
-	public DocResult(ScannedDoc doc, int id)
+	public DocResult(ScannedDoc doc, int new_id, String new_name)
 	{
-		_scannedDoc = doc;
-		_id = id;
+		scannedDoc = doc;
+		id = new_id;
+		name = new_name;
 	}
 	public ScannedDoc scannedDoc() {
-		return _scannedDoc;
+		return scannedDoc;
 	}
 	public int id() {
-		return _id;
+		return id;
+	}
+	
+	public String name() {
+		return name;
+	}
+	
+	public String getDate(){
+		
+		return date.toString();
 	}
 
 }
