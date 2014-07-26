@@ -11,38 +11,46 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
-public class TagActivity extends Activity {
+public class TagActivity extends FragmentActivity {
 
+	ExpandableListView expListView = null;
+	ArrayList<String> existingTags = null;
+	HashMap<String, List<String>> listDataChild = null;
+	List<String> listDataHeader = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tag);
-		ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-		Intent intent = getIntent();
-		Parcelable p = intent.getParcelableExtra(CaptureActivity.BITMAP_EXTRA);
-		imageView.setImageBitmap((Bitmap) p);
+//		ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+//		Intent intent = getIntent();
+//		Parcelable p = intent.getParcelableExtra(CaptureActivity.BITMAP_EXTRA);
+//		imageView.setImageBitmap((Bitmap) p);
 		
-	    List<String> listDataHeader = new ArrayList<String>();
+	    listDataHeader = new ArrayList<String>();
         listDataHeader.add("Suggested tags");
         listDataHeader.add("Existing tags");
-	    HashMap<String, List<String>> listDataChild = new HashMap<String, List<String>>();
+        listDataChild = new HashMap<String, List<String>>();
 	    ArrayList<String> suggestedTags = new ArrayList<String>();
-	    String s = intent.getStringExtra(CaptureActivity.OCR_RESULT_TEXT_EXTRA);
+	   // String s = intent.getStringExtra(CaptureActivity.OCR_RESULT_TEXT_EXTRA);
+	    String s = "custom1 custom2 custom3";
 	    String [] tags = s.split(" ");
 	    for (String tag : tags)
 	    	suggestedTags.add(tag);
 	    listDataChild.put(listDataHeader.get(0), suggestedTags);
-	    ArrayList<String> existingTags = new ArrayList<String>();
+	    existingTags = new ArrayList<String>();
 	    existingTags.add("tag1");
 	    existingTags.add("tag2");
 	    listDataChild.put(listDataHeader.get(1), existingTags);
 	    ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-		ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expandableListView1);
+	    expListView = (ExpandableListView) findViewById(R.id.expandableListView1);
 		expListView.setAdapter(listAdapter);
 	}
 
@@ -63,5 +71,36 @@ public class TagActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void onCreateNewTagClick(View view)
+	{
+        DialogFragment dialog = new NoticeDialogFragment();
+        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+	
+	}
+
+	public void doPositiveClick(String text) {
+		// TODO Auto-generated method stub
+
+		ExpandableListAdapter adapter = 
+		        (ExpandableListAdapter) expListView.getExpandableListAdapter();
+
+		//( (ExpandableListParentClass)adapter.getMParent().get(0)).getParentChildren().add(text);
+		//(change to get(0) which you parent want to get )
+		
+		existingTags = new ArrayList<String>();
+	    existingTags.add("tag1");
+	    existingTags.add("tag2");
+	    existingTags.add(text);
+	    
+	    listDataChild.put(listDataHeader.get(1), existingTags);
+		adapter.notifyDataSetChanged();
+		//adapter.notifyDataSetInvalidated();
+	}
+
+	public void doNegativeClick() {
+		// TODO Auto-generated method stub
+		
 	}
 }

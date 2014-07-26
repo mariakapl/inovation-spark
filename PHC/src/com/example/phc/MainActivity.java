@@ -42,11 +42,8 @@ public class MainActivity extends ActionBarActivity {
     
     public void scanDocument(View view)
     {
-        // Do something in response to button
-    	Intent intent = new Intent(this, CaptureActivity.class);
-    	//EditText editText = (EditText) findViewById(R.id.scandoc);
-    	//String message = editText.getText().toString();
-    //	intent.putExtra(EXTRA_MESSAGE, message);
+    	//Intent intent = new Intent(this, CaptureActivity.class); //in order test without photo
+    	Intent intent = new Intent(this, TagActivity.class);
     	startActivity(intent);
     }
     

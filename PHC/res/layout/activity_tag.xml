@@ -40,7 +40,8 @@
  	        android:layout_margin="10dp"
  	        android:layout_weight="1"
  	        android:background="@drawable/my_button"
- 	        android:text="Create Tag" />
+ 	        android:text="Create Tag" 
+ 	        android:onClick="onCreateNewTagClick"/>
 
  	    <Button
  	        android:id="@+id/saveTags"
