@@ -3,12 +3,10 @@ package com.example.phc;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import phc.objects.DocResult;
 
@@ -91,7 +89,7 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
                        if(t1!=null)
                     	   t1.setText(o.id());
                        if(t3!=null)
-                    	   t3.setText(o.getDate());
+                    	   t3.setText(o.date());
                        break;
                }
            } else {

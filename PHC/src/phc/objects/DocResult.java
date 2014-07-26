@@ -4,32 +4,24 @@ import java.util.Calendar;
 
 public class DocResult {
 
-	private ScannedDoc scannedDoc;
-	private int id;
-	private String name;
-	private Calendar date;
-	private boolean shared; //indicate if the document is shared
+	private ScannedDoc _scannedDoc;
+	private String _id;
+	private Calendar _date;
+	private boolean _shared; //indicate if the document is shared
 	
-	public DocResult(ScannedDoc doc, int new_id, String new_name)
+	public DocResult(ScannedDoc doc, String id)
 	{
-		scannedDoc = doc;
-		id = new_id;
-		name = new_name;
+		_scannedDoc = doc;
+		_id = id;
 	}
 	public ScannedDoc scannedDoc() {
-		return scannedDoc;
+		return _scannedDoc;
 	}
-	public int id() {
-		return id;
+	public String id() {
+		return _id;
 	}
-	
-	public String name() {
-		return name;
-	}
-	
-	public String getDate(){
-		
-		return date.toString();
+	public String date() {
+		return _date.toString();
 	}
 
 }
