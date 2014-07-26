@@ -1,5 +1,6 @@
 package com.example.phc;
 
+import phc.storage.DocStorage;
 import edu.sfsu.cs.orange.ocr.CaptureActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	DocStorage.create(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
@@ -42,8 +44,8 @@ public class MainActivity extends ActionBarActivity {
     
     public void scanDocument(View view)
     {
-    	//Intent intent = new Intent(this, CaptureActivity.class); //in order test without photo
-    	Intent intent = new Intent(this, TagActivity.class);
+    	Intent intent = new Intent(this, CaptureActivity.class); //in order test without photo
+    	//Intent intent = new Intent(this, TagActivity.class);
     	startActivity(intent);
     }
     
