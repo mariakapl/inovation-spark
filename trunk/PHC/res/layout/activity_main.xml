@@ -43,7 +43,7 @@
         
         <Button android:id="@+id/home_btn_feature3"
             style="@style/HomeButton"
-            android:onClick="onClickFeature"
+            android:onClick="onClickRecords"
             android:text="@string/title_records"
             android:drawableTop="@drawable/home_button3"/>
         

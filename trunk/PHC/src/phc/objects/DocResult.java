@@ -6,13 +6,15 @@ public class DocResult {
 
 	private ScannedDoc _scannedDoc;
 	private String _id;
-	private Calendar _date;
+	private String _date;
 	private boolean _shared; //indicate if the document is shared
 	
-	public DocResult(ScannedDoc doc, String id)
+	public DocResult(ScannedDoc doc, String id, String date)
 	{
 		_scannedDoc = doc;
 		_id = id;
+		
+		_date = date;
 	}
 	public ScannedDoc scannedDoc() {
 		return _scannedDoc;

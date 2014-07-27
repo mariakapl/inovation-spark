@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -18,6 +20,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
+    
+    //public HashMap<Long,Boolean> checkboxMap = new HashMap<Long,Boolean>();
  
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
             HashMap<String, List<String>> listChildData) {
@@ -49,13 +53,35 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.tag_list_view_item, null);
         }
  
-        CheckBox txtListChild = (CheckBox)
-        	convertView.findViewById(R.id.checkboxListItem);
+        CheckBox txtListChild = (CheckBox)convertView.findViewById(R.id.checkboxListItem);
  
         txtListChild.setText(childText);
+        
+        CheckListener checkL = new CheckListener();
+        checkL.setPosition(groupPosition,childPosition);
+        txtListChild.setOnCheckedChangeListener(checkL);
+        
         return convertView;
     }
  
+    private final class CheckListener implements OnCheckedChangeListener{
+
+        long pos;
+        long parent;
+
+        public void setPosition(long par, long p){
+            pos = p;
+            parent = par;
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView,
+                boolean isChecked) {
+        	//checkboxMap.put((long)pos, isChecked);
+        	((TagActivity)_context).SetCheck((long)parent, (long)pos, isChecked);
+        }
+    }
+    
     @Override
     public int getChildrenCount(int groupPosition) {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition))

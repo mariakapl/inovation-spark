@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 
 public class TagActivity extends FragmentActivity {
 
+	HashMap<CheckedItem,Boolean> checkboxMap = new HashMap<CheckedItem,Boolean>();
+	
 	ExpandableListView expListView = null;
 	ArrayList<String> existingTags = null;
 	HashMap<String, List<String>> listDataChild = null;
@@ -35,6 +38,7 @@ public class TagActivity extends FragmentActivity {
 	IDocStorage _docStorage;
 	Bitmap _bitmap;
 	String _ocr;
+	ExpandableListAdapter listAdapter = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,6 +48,8 @@ public class TagActivity extends FragmentActivity {
 		Parcelable p = intent.getParcelableExtra(CaptureActivity.BITMAP_EXTRA);
 		_bitmap = (Bitmap) p;
 		imageView.setImageBitmap(_bitmap);
+		
+		checkboxMap =  new HashMap<CheckedItem, Boolean>(); 
 		
 	    listDataHeader = new ArrayList<String>();
         listDataHeader.add("Suggested tags");
@@ -60,9 +66,11 @@ public class TagActivity extends FragmentActivity {
 	    	existingTags.removeAll(suggestedTags);
 	    }
 	    listDataChild.put(listDataHeader.get(1), existingTags);
-	    ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+	    listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 	    expListView = (ExpandableListView) findViewById(R.id.expandableListView1);
 		expListView.setAdapter(listAdapter);
+		
+
 	}
 
 	@Override
@@ -91,6 +99,9 @@ public class TagActivity extends FragmentActivity {
 	
 	}
 
+
+	
+	
 	public void doPositiveClick(String text) {
 		// TODO Auto-generated method stub
 
@@ -127,8 +138,8 @@ public class TagActivity extends FragmentActivity {
 			return;
 		}
 		Bitmap bitmap = _bitmap;
-		ExpandableListAdapter adapter = 
-			(ExpandableListAdapter) expListView.getExpandableListAdapter();
+		ExpandableListAdapter adapter = listAdapter;
+//			(ExpandableListAdapter) expListView.getExpandableListAdapter();
 		List<String> tags = new ArrayList<String>();
 		for (int i = 0; i < adapter.getGroupCount(); i++)
 		{
@@ -136,13 +147,34 @@ public class TagActivity extends FragmentActivity {
 			{
 				View v = adapter.getChildView(i, j, false, null, null);
 		        CheckBox cb = (CheckBox) v.findViewById(R.id.checkboxListItem);
-		        if (cb.isChecked())
-		        	tags.add(cb.getText().toString());
+		        //if (cb.isChecked())
+		        for(CheckedItem item : checkboxMap.keySet())
+		        {
+		        	if(item.group == i && item.child == j)
+		        	{
+		        		tags.add(cb.getText().toString());
+		        	}
+		        }
 			}
 		}
 		String ocr = _ocr;
 		ScannedDoc doc = new ScannedDoc(name, bitmap, tags, ocr);
 		_docStorage.addDoc(doc);
 		Toast.makeText(this, "Document saved", Toast.LENGTH_SHORT);
+	}
+
+	
+	private static class CheckedItem
+	{
+		public CheckedItem(long group_pos, long pos) {
+			group = group_pos;
+			child = pos;
+		}
+		public long group;
+		public long child;
+	}
+	public void SetCheck(long group_pos, long pos, boolean isChecked) {
+		// TODO Auto-generated method stub
+		checkboxMap.put(new CheckedItem(group_pos, pos), isChecked);
 	}
 }

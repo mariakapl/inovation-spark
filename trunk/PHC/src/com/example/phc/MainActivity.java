@@ -65,4 +65,10 @@ public class MainActivity extends ActionBarActivity {
     	Intent intent = new Intent(this, HealthPortalActivity.class);
     	startActivity(intent);
     }
+    
+    public void onClickRecords(View view)
+    {
+    	Intent intent = new Intent(this, RecordListActivity.class);
+    	startActivity(intent);
+    }
 }
