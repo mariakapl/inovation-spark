@@ -37,11 +37,13 @@ public class DocStorage implements IDocStorage {
 	 *    the tags of the document, one per line.
 	 * 3. OCR directory stores the OCR of the documents. Each document
 	 *    has a single file with the OCR output of that document.
-	 * 4. tagTree.txt stores the hierarchy of tags. Each line specifies
+	 * 4. Names directory stores the names of the documents (docId.txt)
+	 * 5. tagTree.txt stores the hierarchy of tags. Each line specifies
 	 *    the parent tag, followed by the child tags, tab-separated.
 	 */
 	private Context _context;
 	private File _storageDir;
+	private File _namesDir;
 	private File _imagesDir;
 	private File _tagsDir;
 	private File _ocrDir;
@@ -51,8 +53,6 @@ public class DocStorage implements IDocStorage {
 	private HashMap<String, HashSet<String>> _tagsByDoc;	// doc id -> tags
 	private HashMap<String, DocResult> _docsById;		// doc id -> doc
 	private HashMap<String, List<String>> _tagTree;
-	
-	private TagTree _tagsOfTag; //for each tag, get the under tags - not good! should be tree or something
 	
 	private static IDocStorage _instance;
 	public 
@@ -67,6 +67,9 @@ public class DocStorage implements IDocStorage {
 	{
 		_context = context;
 		_storageDir = context.getFilesDir();
+		_namesDir = new File(_storageDir, "Names");
+		if (! _imagesDir.exists())
+			_namesDir.mkdirs();
 		_imagesDir = new File(_storageDir, "Images");
 		if (! _imagesDir.exists())
 			_imagesDir.mkdirs();
@@ -133,13 +136,16 @@ public class DocStorage implements IDocStorage {
 
 	private DocResult load(String id) {
 		if (!_docsById.containsKey(id)) {
+			File nameFile = new File(_namesDir, id + TXT_EXTENSION);
+			String name = readTextFileAsString(nameFile);
 			File image = new File(_imagesDir, id + BITMAP_EXTENSION);
 			Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
 			File ocrFile = new File(_ocrDir, id + TXT_EXTENSION);
 			String ocr = readTextFileAsString(ocrFile);
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
 			List<String> tags = readTextFile(tagFile);
-			_docsById.put(id, new DocResult(new ScannedDoc(bitmap, tags, ocr), id));
+			_docsById.put(id, new DocResult(
+				new ScannedDoc(name, bitmap, tags, ocr), id));
 		}
 		return _docsById.get(id);
 	}
