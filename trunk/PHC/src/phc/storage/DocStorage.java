@@ -1,9 +1,11 @@
 package phc.storage;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
+import com.example.phc.OcrProcessor;
 
 import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
@@ -67,30 +71,24 @@ public class DocStorage implements IDocStorage {
 	{
 		_context = context;
 		_storageDir = context.getFilesDir();
-		_namesDir = new File(_storageDir, "Names");
-		if (! _imagesDir.exists())
-			_namesDir.mkdirs();
-		_imagesDir = new File(_storageDir, "Images");
-		if (! _imagesDir.exists())
-			_imagesDir.mkdirs();
-		_tagsDir = new File(_storageDir, "Tags");
-		if (! _tagsDir.exists())
-			_tagsDir.mkdirs();
-		_ocrDir = new File(_storageDir, "OCR");
-		if (! _ocrDir.exists())
-			_ocrDir.mkdirs();
+		_namesDir = context.getDir("Names", Context.MODE_PRIVATE);
+		_imagesDir = context.getDir("Images", Context.MODE_PRIVATE);
+		_tagsDir = context.getDir("Tags", Context.MODE_PRIVATE);
+		_ocrDir = context.getDir("OCR", Context.MODE_PRIVATE);
 		_tagTreeFile = new File(_storageDir, TAG_TREE_FILE);
+		if (!_tagTreeFile.exists()) {
+			String s = ROOT_TAG + "\t" + join(Arrays.asList(OcrProcessor.Tags), "\t");
+			writeTextFile(_tagTreeFile, s);
+		}
 		load();
 	}
 	
-
 	public boolean writeTextFile(File file, String s)
 	{
-		FileOutputStream fos;
 		try {
-			fos = _context.openFileOutput(file.getAbsolutePath(), Context.MODE_PRIVATE);
-			fos.write(s.getBytes());
-			fos.close();
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		    writer.write (s);
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -164,6 +162,10 @@ public class DocStorage implements IDocStorage {
 				return false;
 			}
 		}
+		if (doc.name() != null) {
+			File name = new File(_namesDir, id + TXT_EXTENSION);
+			writeTextFile(name, doc.name());
+		}
 		if (doc.ocr() != null) {
 			File ocr = new File(_ocrDir, id + TXT_EXTENSION);
 			writeTextFile(ocr, doc.ocr());
@@ -190,7 +192,7 @@ public class DocStorage implements IDocStorage {
 	public static String join(List<String> lines, String separator) {
 		StringBuilder sb = new StringBuilder();
 		for (String line : lines)
-			sb.append(line + "\n");
+			sb.append(line + separator);
 		sb.setLength(sb.length() - 1);
 		return sb.toString();
 	}

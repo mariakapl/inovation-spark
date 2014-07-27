@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import phc.interfaces.IDocStorage;
+import phc.storage.DocStorage;
+
 import edu.sfsu.cs.orange.ocr.CaptureActivity;
 import android.app.Activity;
 import android.content.Intent;
@@ -25,29 +28,30 @@ public class TagActivity extends FragmentActivity {
 	ArrayList<String> existingTags = null;
 	HashMap<String, List<String>> listDataChild = null;
 	List<String> listDataHeader = null;
+	IDocStorage _docStorage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tag);
-//		ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-//		Intent intent = getIntent();
-//		Parcelable p = intent.getParcelableExtra(CaptureActivity.BITMAP_EXTRA);
-//		imageView.setImageBitmap((Bitmap) p);
+		Intent intent = getIntent();
+		ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+		Parcelable p = intent.getParcelableExtra(CaptureActivity.BITMAP_EXTRA);
+		imageView.setImageBitmap((Bitmap) p);
 		
 	    listDataHeader = new ArrayList<String>();
         listDataHeader.add("Suggested tags");
         listDataHeader.add("Existing tags");
         listDataChild = new HashMap<String, List<String>>();
-	    ArrayList<String> suggestedTags = new ArrayList<String>();
-	   // String s = intent.getStringExtra(CaptureActivity.OCR_RESULT_TEXT_EXTRA);
-	    String s = "custom1 custom2 custom3";
-	    String [] tags = s.split(" ");
-	    for (String tag : tags)
-	    	suggestedTags.add(tag);
+	   	String s = intent.getStringExtra(CaptureActivity.OCR_RESULT_TEXT_EXTRA);
+	   	OcrProcessor op = new OcrProcessor(s);
+	    ArrayList<String> suggestedTags = new ArrayList<String>(op.suggestedTags());
 	    listDataChild.put(listDataHeader.get(0), suggestedTags);
+	    _docStorage = DocStorage.get();
 	    existingTags = new ArrayList<String>();
-	    existingTags.add("tag1");
-	    existingTags.add("tag2");
+	    if (_docStorage != null) {
+	    	existingTags.addAll(_docStorage.getChildTags(null));
+	    	existingTags.removeAll(suggestedTags);
+	    }
 	    listDataChild.put(listDataHeader.get(1), existingTags);
 	    ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 	    expListView = (ExpandableListView) findViewById(R.id.expandableListView1);
