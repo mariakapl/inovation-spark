@@ -8,9 +8,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +26,7 @@ import phc.objects.ScannedDoc;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.format.DateFormat;
 
 
 
@@ -142,8 +146,14 @@ public class DocStorage implements IDocStorage {
 			String ocr = readTextFileAsString(ocrFile);
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
 			List<String> tags = readTextFile(tagFile);
+			
+			
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			Date date = Calendar.getInstance().getTime();        
+			String reportDate = df.format(date);
+			
 			_docsById.put(id, new DocResult(
-				new ScannedDoc(name, bitmap, tags, ocr), id));
+				new ScannedDoc(name, bitmap, tags, ocr), id, reportDate));
 		}
 		return _docsById.get(id);
 	}
@@ -261,7 +271,12 @@ public class DocStorage implements IDocStorage {
 		if (tags.isEmpty())
 			return res;
 		ArrayList<String> queryTags = new ArrayList<String>(tags);
-		HashSet<String> docs = new HashSet<String>(_docsByTag.get(queryTags.get(0)));
+		HashSet<String> docs_first_tag= _docsByTag.get(queryTags.get(0));
+		
+		if(docs_first_tag == null)
+			return res;
+		
+		HashSet<String> docs = new HashSet<String>(docs_first_tag);
 		queryTags.remove(0);
 		for (String tag : queryTags) {
 			if (!_docsByTag.containsKey(tag))

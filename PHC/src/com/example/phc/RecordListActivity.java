@@ -46,7 +46,7 @@ public class RecordListActivity extends ListActivity  {
 	  List<DocResult> docs = new ArrayList<DocResult>();
       List<String> tags = new ArrayList<String>(_docStorage.getChildTags(null));
 		
-      //go over all the tags and docs in current (tag ?)
+      //go over all the tags in tag tree and get the docs 
       Collections.sort(tags);
       
       for(String tag: tags)
