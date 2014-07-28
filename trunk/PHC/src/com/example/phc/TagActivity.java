@@ -127,14 +127,16 @@ public class TagActivity extends FragmentActivity {
 
 	public void onSaveClick(View view) {
 		if (_docStorage == null) {
-			Toast.makeText(this, "Cannot save - internal error", Toast.LENGTH_SHORT);
+			Toast error_toast = Toast.makeText(this, "Cannot save - internal error", Toast.LENGTH_SHORT);
+			error_toast.show();
 			return;
 		}
 		
 		EditText editText = (EditText) findViewById(R.id.doc_name);
 		String name = editText.getText().toString();
 		if (name == null || name.length() == 0) {
-			Toast.makeText(this, "Please specify a name for the document", Toast.LENGTH_SHORT);
+			Toast document_name_toast = Toast.makeText(this, "Please specify a name for the document", Toast.LENGTH_SHORT);
+			document_name_toast.show();
 			return;
 		}
 		Bitmap bitmap = _bitmap;
@@ -160,7 +162,8 @@ public class TagActivity extends FragmentActivity {
 		String ocr = _ocr;
 		ScannedDoc doc = new ScannedDoc(name, bitmap, tags, ocr);
 		_docStorage.addDoc(doc);
-		Toast.makeText(this, "Document saved", Toast.LENGTH_SHORT);
+		Toast save_toast = Toast.makeText(this, "Document saved", Toast.LENGTH_SHORT);
+		save_toast.show();
 	}
 
 	
