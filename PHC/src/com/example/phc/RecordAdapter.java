@@ -87,7 +87,7 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
 //                           imageCity.setImageDrawable(image);
                       
                        if(t1!=null)
-                    	   t1.setText(o.id());
+                    	   t1.setText(o.scannedDoc().name());
                        if(t3!=null)
                     	   t3.setText(o.date());
                        break;

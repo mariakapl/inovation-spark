@@ -100,7 +100,14 @@ public class TagActivity extends FragmentActivity {
 	}
 
 
-	
+	@Override
+	public void onBackPressed()
+	{
+	    super.onBackPressed(); 
+	    startActivity(new Intent(TagActivity.this, MainActivity.class));
+	    finish();
+
+	}
 	
 	public void doPositiveClick(String text) {
 		// TODO Auto-generated method stub
