@@ -71,22 +71,85 @@ public class DocStorage implements IDocStorage {
 		return (_instance = new DocStorage(context));
 	}
 	
+	//remove all the files :(
+	private void RemoveAll(File storageDir) {
+		// TODO Auto-generated method stub
+		File tagTreeFile = new File(storageDir, TAG_TREE_FILE);
+		if (tagTreeFile.exists()) {
+			tagTreeFile.delete();
+		}
+		
+		if (_namesDir.exists() && _namesDir.isDirectory()) {
+			String[] children = _namesDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_namesDir, children[i]).delete();
+	        }
+		}
+		
+		if (_imagesDir.exists() && _imagesDir.isDirectory()) {
+			String[] children = _imagesDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_imagesDir, children[i]).delete();
+	        }
+		}
+		
+		if (_tagsDir.exists() && _tagsDir.isDirectory()) {
+			String[] children = _tagsDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_tagsDir, children[i]).delete();
+	        }
+		}
+		
+		if (_ocrDir.exists() && _ocrDir.isDirectory()) {
+			String[] children = _ocrDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_ocrDir, children[i]).delete();
+	        }
+		}
+		
+	}
+	
 	private DocStorage(Context context)
 	{
 		_context = context;
+		
 		_storageDir = context.getFilesDir();
 		_namesDir = context.getDir("Names", Context.MODE_PRIVATE);
 		_imagesDir = context.getDir("Images", Context.MODE_PRIVATE);
 		_tagsDir = context.getDir("Tags", Context.MODE_PRIVATE);
 		_ocrDir = context.getDir("OCR", Context.MODE_PRIVATE);
+		
+		//RemoveAll(_storageDir);
+		
 		_tagTreeFile = new File(_storageDir, TAG_TREE_FILE);
+		
 		if (!_tagTreeFile.exists()) {
-			String s = ROOT_TAG + "\t" + join(Arrays.asList(OcrProcessor.Tags), "\t");
+			
+			String s = ROOT_TAG + "\t";
+			
+			for (int i = 0; i < OcrProcessor.Tags.length; i++) {
+				s += OcrProcessor.Tags[i][0] + "\t";
+			}
+			s+= "\n";
+			
+			//now add all others
+			for (int i = 0; i < OcrProcessor.Tags.length; i++) {
+//				for(int j = 0;  j < OcrProcessor.Tags[i].length; j++ )
+//				{
+//					s += OcrProcessor.Tags[i][j] + "\t";
+//				}
+				
+				s+= join(Arrays.asList(OcrProcessor.Tags[i]), "\t");
+				s+= "\n";
+			}
+			
+			//s = ROOT_TAG + "\t" + join(Arrays.asList(OcrProcessor.Tags), "\t");
 			writeTextFile(_tagTreeFile, s);
 		}
 		load();
 	}
 	
+
 	public boolean writeTextFile(File file, String s)
 	{
 		try {

@@ -7,16 +7,20 @@ import java.util.HashSet;
 
 public class OcrProcessor {
 
-	public static final String [] Tags = {
-		"drug", "medicine",
-		"hospital", "x-ray", "ct", "mri", "allergy",
-		"treatment", "cancer", "orthopedics", "pullmonary",
-		"eye", "ear", "bone", "lab test", "blood test", "urine test",
-		"prescription", "doctor referrals"
+	public static final String [][] Tags = {
+		{"drug"},
+		{"medicine"},
+	    {"Imaging", "x-ray", "ct", "mri"},
+	    {"allergy"},
+	    {"treatment"},
+	    {"cancer"},
+	    {"lab test", "blood test", "urine test"},
+	    {"prescription"},
+	    {"doctor referrals"}
 
 	};
-	private static final HashSet<String> _sTags =
-		new HashSet<String>(Arrays.asList(Tags));
+//	private static final HashSet<String> _sTags =
+//		new HashSet<String>(Arrays.asList(Tags));
 
 	private String _ocr;
 	
@@ -26,9 +30,10 @@ public class OcrProcessor {
 	
 	public Collection<String> suggestedTags() {
 		ArrayList<String> tags = new ArrayList<String>();
-		for (String tag : Tags) {
-			if (_ocr.contains(tag))
-				tags.add(tag);
+		for (int i = 0; i < Tags.length; i++) {
+			for(int j = 0;  j < Tags[i].length; j++ )
+				if (_ocr.contains(Tags[i][j]))
+					tags.add(Tags[i][j]);
 		}
 		return tags;
 	}
