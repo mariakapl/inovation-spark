@@ -12,6 +12,7 @@ import phc.storage.DocStorage;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -25,9 +26,17 @@ public class RecordListActivity extends ListActivity  {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
+	    
 	    _docStorage = DocStorage.get();
 	    
-	    fillContent();
+	    String tag = null;
+	    
+	    if (getIntent().hasExtra("tag")) {
+	    	tag = getIntent().getStringExtra("tag");
+	      }
+	    
+	    fillContent(tag);
 //        setContentView(R.layout.activity_records_list);
 //	    // TODO Auto-generated method stub
 //        List<DocResult> docs = new ArrayList<DocResult>();
@@ -41,36 +50,55 @@ public class RecordListActivity extends ListActivity  {
         
 	}
 
-	private void fillContent() {
+	private void fillContent(String parentTag) {
 		
 	  List<DocResult> docs = new ArrayList<DocResult>();
-      List<String> tags = new ArrayList<String>(_docStorage.getChildTags(null));
-		
-      //go over all the tags in tag tree and get the docs 
-      Collections.sort(tags);
+	  
+      List<String> tags = null;
       
-      for(String tag: tags)
+      Collection<String> children = _docStorage.getChildTags(parentTag);
+      
+      if(children != null)
       {
-    	  docs.addAll(_docStorage.queryDocsByTags(Arrays.asList(tag)));
+    	  tags = new ArrayList<String>(children);
+    	  Collections.sort(tags);
+          for(String tag : tags)
+          {
+        	  DocResult result = new DocResult(null, tag, "-1");
+        	  docs.add(result);
+          }
       }
+      //go over all the tags in tag tree and get the docs 
+     
       
-      adapter =  new RecordAdapter(this, R.layout.record_row, docs, tags.size());
+//      for(String tag: tags)
+//      {
+//    	  docs.addAll(_docStorage.queryDocsByTags(Arrays.asList(tag)));
+//      }
+
+      if(parentTag != null)
+    	  docs.addAll(_docStorage.queryDocsByTags(Arrays.asList(parentTag)));
+      
+      adapter =  new RecordAdapter(this, R.layout.record_row, docs, tags == null ? 0 : tags.size());
       this.setListAdapter(adapter);
-		
 	}
 	
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
             // TODO Auto-generated method stub
             super.onListItemClick(l, v, position, id);
+            
             DocResult o = adapter.getItem(position);
-            //if(o.id() == -1){ //this is a tag
-                  fillContent();
-            //}
-            //else
-            //{
-            //        onDocClick(o);
-            //}
+            if(o.date() == "-1"){ //this is a tag
+                  // fillContent(o.id());
+            	 Intent intent = new Intent(this, RecordListActivity.class);
+            	 intent.putExtra("tag", o.id());
+                 startActivity(intent);
+            }
+            else
+            {
+                 onDocClick(o);
+            }
     }
 
 	private void onDocClick(DocResult o) {

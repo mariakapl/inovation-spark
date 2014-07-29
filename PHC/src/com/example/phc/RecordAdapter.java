@@ -18,13 +18,13 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
     LayoutInflater layoutInflater = null;
     
     public RecordAdapter(Context context, int textViewResourceId,
-                    List<DocResult> objects, int tag_number) {
+                    List<DocResult> objects, int tag_count) {
             super(context, textViewResourceId, objects);
             c = context;
             id = textViewResourceId;
             items = objects;
-            
-            layoutInflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            tag_number = tag_count;
+           // layoutInflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     
     
@@ -52,50 +52,50 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
            int type = getItemViewType(position);
            
            if (v == null) {
-               v = layoutInflater.inflate(id, null);
-           }
-          
            /* create a new view of my layout and inflate it in the row */
             //convertView = ( RelativeLayout ) inflater.inflate( resource, null );
            
            final DocResult o = items.get(position);
            if (convertView == null) {
-               switch (type) {
-                   case 0: //tag
-                	  
-                	   //this is not really scanned doc - but a tag
-                       convertView = layoutInflater.inflate(R.layout.tag_row, null);
-                       
-                       TextView tag_name = (TextView) v.findViewById(R.id.TextView01);
-                       
-                       if(tag_name!=null)
-                    	   tag_name.setText(o.id());
-                       
-                       break;
-                   case 1: //document
-                       convertView = layoutInflater.inflate(R.layout.record_row, null);
-                       
-                       TextView t1 = (TextView) v.findViewById(R.id.TextView01);
-                       TextView t3 = (TextView) v.findViewById(R.id.TextViewDate);
-                       /* Take the ImageView from layout and set the city's image */
-                       
-                       //TODO: set the image
-//                           ImageView imageCity = (ImageView) v.findViewById(R.id.record_Icon1);
-//                           String uri = "drawable/" + o.getImage();
-//                           int imageResource = c.getResources().getIdentifier(uri, null, c.getPackageName());
-//                           Drawable image = c.getResources().getDrawable(imageResource);
-//                           imageCity.setImageDrawable(image);
-                      
-                       if(t1!=null)
-                    	   t1.setText(o.scannedDoc().name());
-                       if(t3!=null)
-                    	   t3.setText(o.date());
-                       break;
-               }
-           } else {
-
+	               switch (type) {
+	                   case 0: //tag
+	                	  
+	                	   //this is not really scanned doc - but a tag
+	                	   layoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	                       v = convertView = layoutInflater.inflate(R.layout.tag_row, null);
+	                       
+	                       TextView tag_name = (TextView) convertView.findViewById(R.id.TextView01);
+	                       
+	                       if(tag_name!=null)
+	                    	   tag_name.setText(o.id());
+	                       
+	                       break;
+	                   case 1: //document
+	                	   
+	                	   layoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	                       v = convertView = layoutInflater.inflate(R.layout.record_row, null);
+	                       
+	                       TextView t1 = (TextView) convertView.findViewById(R.id.TextView01);
+	                       TextView t3 = (TextView) convertView.findViewById(R.id.TextViewDate);
+	                       /* Take the ImageView from layout and set the city's image */
+	                       
+	                       //TODO: set the image
+	//                           ImageView imageCity = (ImageView) v.findViewById(R.id.record_Icon1);
+	//                           String uri = "drawable/" + o.getImage();
+	//                           int imageResource = c.getResources().getIdentifier(uri, null, c.getPackageName());
+	//                           Drawable image = c.getResources().getDrawable(imageResource);
+	//                           imageCity.setImageDrawable(image);
+	                      
+	                       if(t1!=null)
+	                    	   t1.setText(o.scannedDoc().name());
+	                       if(t3!=null)
+	                    	   t3.setText(o.date());
+	                       break;
+	               }
+	           } else {
+	
+	           }
            }
-           
            return v;
    }
 }

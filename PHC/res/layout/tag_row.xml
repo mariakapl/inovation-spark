@@ -10,6 +10,7 @@
     android:layout_height="wrap_content"
     android:singleLine="true"
     android:textStyle="bold"
+    android:background="#09ADB9"
     android:layout_marginTop="5dip" 
     android:layout_marginLeft="5dip">
 </TextView>
