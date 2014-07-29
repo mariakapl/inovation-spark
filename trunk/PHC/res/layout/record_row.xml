@@ -17,7 +17,8 @@
     android:textStyle="bold"
     android:layout_toRightOf="@+id/record_Icon1"
     android:layout_marginTop="5dip" 
-    android:layout_marginLeft="5dip">
+    android:layout_marginLeft="5dip"
+    android:background="#fa87e7">
 </TextView>
 <TextView android:text="@+id/TextViewDate"
     android:id="@+id/TextViewDate"
