@@ -246,7 +246,7 @@ public class DocStorage implements IDocStorage {
 		if (doc.tags() != null) {
 			StringBuilder sb = new StringBuilder();
 			for (String tag : doc.tags()) {
-				if (sb.length() == 0)
+				if (sb.length() > 0)
 					sb.append("\n");
 				sb.append(tag);
 			}
