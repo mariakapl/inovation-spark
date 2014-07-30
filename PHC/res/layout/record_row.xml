@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="vertical" >
   
 <ImageView
     android:id="@+id/record_Icon1"
@@ -14,11 +16,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:singleLine="true"
-    android:textStyle="bold"
+    android:textColor="#040404"
+    android:typeface="sans"
+    android:textSize="20sp"
     android:layout_toRightOf="@+id/record_Icon1"
     android:layout_marginTop="5dip" 
-    android:layout_marginLeft="5dip"
-    android:background="#fa87e7">
+    android:layout_marginLeft="5dip">
 </TextView>
 <TextView android:text="@+id/TextViewDate"
     android:id="@+id/TextViewDate"

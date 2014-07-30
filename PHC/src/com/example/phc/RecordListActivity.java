@@ -104,6 +104,9 @@ public class RecordListActivity extends ListActivity  {
 	private void onDocClick(DocResult o) {
 		// TODO Auto-generated method stub
 		//open a new activity to watch the document
+		Intent intent = new Intent(this, ScannedDocPresentationActivity.class);
+		intent.putExtra("file_id", o.id());
+		startActivity(intent);
 	}
 
 

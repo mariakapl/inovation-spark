@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import phc.objects.DocResult;
 
@@ -80,7 +81,12 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
 	                       /* Take the ImageView from layout and set the city's image */
 	                       
 	                       //TODO: set the image
-	//                           ImageView imageCity = (ImageView) v.findViewById(R.id.record_Icon1);
+	                       
+	                       
+	                       ImageView image = (ImageView) v.findViewById(R.id.record_Icon1);
+	                       
+	                       if(image != null && o.scannedDoc() != null && o.scannedDoc().bitmap() != null)
+	                    	   image.setImageBitmap(o.scannedDoc().bitmap());
 	//                           String uri = "drawable/" + o.getImage();
 	//                           int imageResource = c.getResources().getIdentifier(uri, null, c.getPackageName());
 	//                           Drawable image = c.getResources().getDrawable(imageResource);
