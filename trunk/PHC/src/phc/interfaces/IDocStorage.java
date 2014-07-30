@@ -1,5 +1,6 @@
 package phc.interfaces;
 
+import java.io.File;
 import java.util.Collection;
 
 import phc.objects.DocResult;
@@ -18,4 +19,5 @@ public interface IDocStorage
 	Collection<String> getExistingTags();
 	//Get the child tags of a specific tag - pass null to get topmost level
 	Collection<String> getChildTags(String tag);
+	File getImageDir();
 }

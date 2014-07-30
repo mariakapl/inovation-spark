@@ -150,6 +150,11 @@ public class DocStorage implements IDocStorage {
 	}
 	
 
+	public File getImageDir()
+	{
+		return _imagesDir;
+	}
+	
 	public boolean writeTextFile(File file, String s)
 	{
 		try {
