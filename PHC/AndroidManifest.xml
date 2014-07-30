@@ -80,6 +80,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.phc.MainActivity" />
         </activity>
+        <activity android:name="RecordListActivity"></activity>
     </application>
 
 </manifest>
