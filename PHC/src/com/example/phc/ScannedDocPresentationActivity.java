@@ -3,7 +3,6 @@ package com.example.phc;
 
 import phc.objects.DocResult;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -16,8 +15,7 @@ public class ScannedDocPresentationActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_scanned_doc_presentation);
-	    
-	    Intent intent = getIntent();
+
 	    DocResult doc = (DocResult) getIntent().getParcelableExtra(RecordListActivity.DOCRESULT_EXTRA);
 	    if(doc == null)
 	    	return;
@@ -26,6 +24,5 @@ public class ScannedDocPresentationActivity extends Activity {
 	    Bitmap map = doc.scannedDoc().bitmap();
         if(image != null && map != null)
      	   image.setImageBitmap(map);
-	    // TODO Auto-generated method stub
 	}
 }
