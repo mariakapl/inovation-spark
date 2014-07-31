@@ -80,8 +80,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.phc.MainActivity" />
         </activity>
-        <activity android:name="RecordListActivity"></activity>
-        <activity android:name=".ScannedDocPresentationActivity"></activity>
+        <activity android:name=".RecordListActivity" >
+        </activity>
+        <activity android:name=".ScannedDocPresentationActivity" >
+        </activity>
+        <activity
+            android:name=".GraphActivity"
+            android:label="@string/title_activity_graph" >
+        </activity>
     </application>
 
 </manifest>

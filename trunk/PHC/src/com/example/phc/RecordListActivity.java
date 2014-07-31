@@ -9,7 +9,6 @@ import java.util.List;
 import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
 import phc.storage.DocStorage;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,11 +26,8 @@ public class RecordListActivity extends ListActivity  {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    
-	    
-	    _docStorage = DocStorage.get();
-	    
-	    String tag = null;
-	    
+	    _docStorage = DocStorage.get();	    
+	    String tag = null;	    
 	    if (getIntent().hasExtra("tag")) {
 	    	tag = getIntent().getStringExtra("tag");
 	      }

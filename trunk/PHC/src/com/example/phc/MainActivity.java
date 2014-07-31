@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
     public void onClickShare(View view)
     {
         // Do something in response to button
-    	Intent intent = new Intent(this, ShareActivity.class);
+    	Intent intent = new Intent(this, GraphActivity.class);
     	//EditText editText = (EditText) findViewById(R.id.scandoc);
     	//String message = editText.getText().toString();
     //	intent.putExtra(EXTRA_MESSAGE, message);
