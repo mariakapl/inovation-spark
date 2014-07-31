@@ -10,7 +10,6 @@ import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
 import phc.storage.DocStorage;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import android.widget.ListView;
 
 public class RecordListActivity extends ListActivity  {
 
+	public static final String DOCRESULT_EXTRA = "doc_result";
 	/** Called when the activity is first created. */
 	RecordAdapter adapter = null;
 	IDocStorage _docStorage;
@@ -102,10 +102,9 @@ public class RecordListActivity extends ListActivity  {
     }
 
 	private void onDocClick(DocResult o) {
-		// TODO Auto-generated method stub
 		//open a new activity to watch the document
 		Intent intent = new Intent(this, ScannedDocPresentationActivity.class);
-		intent.putExtra("file_id", o.id());
+		intent.putExtra(DOCRESULT_EXTRA, o);
 		startActivity(intent);
 	}
 

@@ -81,7 +81,7 @@
                 android:value="com.example.phc.MainActivity" />
         </activity>
         <activity android:name="RecordListActivity"></activity>
-        <activity android:name="ScannedDocPresentationActivity"></activity>
+        <activity android:name=".ScannedDocPresentationActivity"></activity>
     </application>
 
 </manifest>
