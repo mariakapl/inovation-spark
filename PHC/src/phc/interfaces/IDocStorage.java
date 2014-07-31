@@ -19,5 +19,4 @@ public interface IDocStorage
 	Collection<String> getExistingTags();
 	//Get the child tags of a specific tag - pass null to get topmost level
 	Collection<String> getChildTags(String tag);
-	File getImageDir();
 }
