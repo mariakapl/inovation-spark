@@ -186,7 +186,7 @@ public class TagActivity extends FragmentActivity {
 //		        		tags.add(cb.getText().toString());
 //		        	}
 //		        }
-		        if(i == 0)
+		        if(i == 0) //TODO: make it nicer
 		        {
 		        	if(adapter.checkboxMapSuggested.containsKey(j) && adapter.checkboxMapSuggested.get(j))
 		        	{
