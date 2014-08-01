@@ -14,13 +14,7 @@ public class OcrProcessor {
 		{"Prescriptions"},
 	    {"Imaging", "X-ray", "CT", "MRI"},
 	    {"Allergy"},
-	    {"Vaccinations"},
-	    {"x"},
-	    {"y"},
-	    {"z"},
-	    {"t"},
-	    {"r"},
-
+	    {"Vaccinations"}
 	};
 	
 	public static final String [][] RelevantWords = {
