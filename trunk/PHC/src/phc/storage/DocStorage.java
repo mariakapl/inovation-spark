@@ -16,7 +16,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.example.phc.OcrProcessor;
 
@@ -79,33 +81,33 @@ public class DocStorage implements IDocStorage {
 			tagTreeFile.delete();
 		}
 		
-		if (_namesDir.exists() && _namesDir.isDirectory()) {
-			String[] children = _namesDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_namesDir, children[i]).delete();
-	        }
-		}
-		
-		if (_imagesDir.exists() && _imagesDir.isDirectory()) {
-			String[] children = _imagesDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_imagesDir, children[i]).delete();
-	        }
-		}
-		
-		if (_tagsDir.exists() && _tagsDir.isDirectory()) {
-			String[] children = _tagsDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_tagsDir, children[i]).delete();
-	        }
-		}
-		
-		if (_ocrDir.exists() && _ocrDir.isDirectory()) {
-			String[] children = _ocrDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_ocrDir, children[i]).delete();
-	        }
-		}
+//		if (_namesDir.exists() && _namesDir.isDirectory()) {
+//			String[] children = _namesDir.list();
+//	        for (int i = 0; i < children.length; i++) {
+//	            new File(_namesDir, children[i]).delete();
+//	        }
+//		}
+//		
+//		if (_imagesDir.exists() && _imagesDir.isDirectory()) {
+//			String[] children = _imagesDir.list();
+//	        for (int i = 0; i < children.length; i++) {
+//	            new File(_imagesDir, children[i]).delete();
+//	        }
+//		}
+//		
+//		if (_tagsDir.exists() && _tagsDir.isDirectory()) {
+//			String[] children = _tagsDir.list();
+//	        for (int i = 0; i < children.length; i++) {
+//	            new File(_tagsDir, children[i]).delete();
+//	        }
+//		}
+//		
+//		if (_ocrDir.exists() && _ocrDir.isDirectory()) {
+//			String[] children = _ocrDir.list();
+//	        for (int i = 0; i < children.length; i++) {
+//	            new File(_ocrDir, children[i]).delete();
+//	        }
+//		}
 		
 	}
 	
@@ -167,6 +169,41 @@ public class DocStorage implements IDocStorage {
 		}
 		return true;
 	}
+	
+	
+	public boolean appendNewTag(File file, String s)
+	{
+		try {
+			 BufferedReader reader = new BufferedReader(new FileReader(file));
+			 String line = null;
+			 String input = null;
+			 boolean first = true;
+			 
+			 while ((line = reader.readLine()) != null){
+				 if(first)
+				 {
+					 input = line + s + "\t" + '\n'; //so that this will be under root as well
+					 first = false;
+				 }
+				 else
+				 {
+					 input += line + '\n';
+				 }
+			}
+			
+			input += s + "\n"; 
+			reader.close();
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		    writer.write (input);
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 	
 	private void load() {
 		File [] files = _imagesDir.listFiles(new FilenameFilter() {
@@ -368,5 +405,16 @@ public class DocStorage implements IDocStorage {
 			tag = ROOT_TAG;
 		return _tagTree.get(tag);
 	}
-
+	@Override
+	public void AddExtraTag(String text) {
+		// TODO Auto-generated method stub
+		ArrayList<String> top_tags = new ArrayList<String>(_tagTree.get(ROOT_TAG));
+		top_tags.add(text);
+		_tagTree.put(ROOT_TAG, top_tags);
+		_tagTree.put(text, new ArrayList<String>()); //TODO: is this correct?
+		
+		if (_tagTreeFile.exists()) {
+			appendNewTag(_tagTreeFile, text);
+		}
+	}
 }
