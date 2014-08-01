@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class TagActivity extends FragmentActivity {
 
-	HashMap<CheckedItem,Boolean> checkboxMap = new HashMap<CheckedItem,Boolean>();
+	
 	
 	ExpandableListView expListView = null;
 	ArrayList<String> existingTags = null;
@@ -50,7 +50,6 @@ public class TagActivity extends FragmentActivity {
 		_bitmap = (Bitmap) p;
 		imageView.setImageBitmap(_bitmap);
 		
-		checkboxMap =  new HashMap<CheckedItem, Boolean>(); 
 		
 	    listDataHeader = new ArrayList<String>();
         listDataHeader.add("Suggested tags");
@@ -180,13 +179,29 @@ public class TagActivity extends FragmentActivity {
 				View v = adapter.getChildView(i, j, false, null, null);
 		        CheckBox cb = (CheckBox) v.findViewById(R.id.checkboxListItem);
 		        //if (cb.isChecked())
-		        for(CheckedItem item : checkboxMap.keySet())
+//		        for(CheckedItem item : checkboxMap.keySet())
+//		        {
+//		        	if(item.group == i && item.child == j)
+//		        	{
+//		        		tags.add(cb.getText().toString());
+//		        	}
+//		        }
+		        if(i == 0)
 		        {
-		        	if(item.group == i && item.child == j)
+		        	if(adapter.checkboxMapSuggested.containsKey(j) && adapter.checkboxMapSuggested.get(j))
 		        	{
 		        		tags.add(cb.getText().toString());
 		        	}
 		        }
+		        
+		        if(i == 1)
+		        {
+		        	if(adapter.checkboxMapExisting.containsKey(j) && adapter.checkboxMapExisting.get(j))
+		        	{
+		        		tags.add(cb.getText().toString());
+		        	}
+		        }
+		        
 			}
 		}
 		String ocr = _ocr;
@@ -199,18 +214,18 @@ public class TagActivity extends FragmentActivity {
 	}
 
 	
-	private static class CheckedItem
-	{
-		public CheckedItem(long group_pos, long pos) {
-			group = group_pos;
-			child = pos;
-		}
-		public long group;
-		public long child;
-	}
-	
-	public void SetCheck(long group_pos, long pos, boolean isChecked) {
-		// TODO Auto-generated method stub
-		checkboxMap.put(new CheckedItem(group_pos, pos), isChecked);
-	}
+//	private static class CheckedItem
+//	{
+//		public CheckedItem(long group_pos, long pos) {
+//			group = group_pos;
+//			child = pos;
+//		}
+//		public long group;
+//		public long child;
+//	}
+//	
+//	public void SetCheck(long group_pos, long pos, boolean isChecked) {
+//		// TODO Auto-generated method stub
+//		checkboxMap.put(new CheckedItem(group_pos, pos), isChecked);
+//	}
 }

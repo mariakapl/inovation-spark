@@ -3,6 +3,7 @@ package com.example.phc;
 import java.util.HashMap;
 import java.util.List;
 
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -20,7 +21,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
-    
+    public HashMap<Integer,Boolean> checkboxMapSuggested = new HashMap<Integer,Boolean>();
+    public HashMap<Integer,Boolean> checkboxMapExisting = new HashMap<Integer,Boolean>();
     //public HashMap<Long,Boolean> checkboxMap = new HashMap<Long,Boolean>();
  
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
@@ -47,21 +49,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
  
         final String childText = (String) getChild(groupPosition, childPosition);
  
-        if (convertView == null) {
+       // if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.tag_list_view_item, null);
-        }
+            View grid = infalInflater.inflate(R.layout.tag_list_view_item, null);
+            
+        //}
  
-        CheckBox txtListChild = (CheckBox)convertView.findViewById(R.id.checkboxListItem);
+        CheckBox txtListChild = (CheckBox)grid.findViewById(R.id.checkboxListItem);
  
         txtListChild.setText(childText);
+        
+        
+        if(groupPosition == 0)
+        	 txtListChild.setChecked(checkboxMapSuggested.containsKey(childPosition) ? checkboxMapSuggested.get(childPosition) : false);
+        if(groupPosition == 1)
+       	 	txtListChild.setChecked(checkboxMapExisting.containsKey(childPosition) ? checkboxMapExisting.get(childPosition) : false);
         
         CheckListener checkL = new CheckListener();
         checkL.setPosition(groupPosition,childPosition);
         txtListChild.setOnCheckedChangeListener(checkL);
         
-        return convertView;
+        return grid;
     }
  
     private final class CheckListener implements OnCheckedChangeListener{
@@ -78,10 +87,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         public void onCheckedChanged(CompoundButton buttonView,
                 boolean isChecked) {
         	//checkboxMap.put((long)pos, isChecked);
-        	((TagActivity)_context).SetCheck((long)parent, (long)pos, isChecked);
+        	SetCheck((long)parent, (long)pos, isChecked);
         }
     }
     
+	public void SetCheck(long group_pos, long pos, boolean isChecked) {
+		
+       if(group_pos == 0)
+           checkboxMapSuggested.put((int)pos, isChecked);
+       if(group_pos == 1)
+    	   checkboxMapExisting.put((int)pos, isChecked);
+	}
+	
     @Override
     public int getChildrenCount(int groupPosition) {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition))
@@ -130,4 +147,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+    
+	private static class CheckedItem
+	{
+		public CheckedItem(long group_pos, long pos) {
+			group = group_pos;
+			child = pos;
+		}
+		public long group;
+		public long child;
+	}
 }
