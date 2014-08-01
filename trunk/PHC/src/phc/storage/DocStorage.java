@@ -254,7 +254,7 @@ public class DocStorage implements IDocStorage {
 			
 			
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			Date date = Calendar.getInstance().getTime();        
+			Date date = new Date(image.lastModified());     
 			String reportDate = df.format(date);
 			
 			_docsById.put(id, new DocResult(
