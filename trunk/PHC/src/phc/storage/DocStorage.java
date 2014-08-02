@@ -11,16 +11,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import com.example.phc.OcrProcessor;
 
 import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
@@ -28,7 +23,8 @@ import phc.objects.ScannedDoc;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.format.DateFormat;
+
+import com.example.phc.OcrProcessor;
 
 
 
@@ -37,7 +33,6 @@ public class DocStorage implements IDocStorage {
 	private static final String TAG_TREE_FILE = "tagTree.txt";
 	private static final String TXT_EXTENSION = ".txt";
 	private static final String BITMAP_EXTENSION = ".png";
-	private static final String ROOT_TAG = "@Root@";
 	
 	/* Storage is implemented as the following:
 	 * 1. Images directory stores all images, with the name <id>.png
@@ -65,8 +60,7 @@ public class DocStorage implements IDocStorage {
 	private HashMap<String, List<String>> _tagTree;
 	
 	private static IDocStorage _instance;
-	public 
-	static IDocStorage get() {
+	public static IDocStorage get() {
 		return _instance;
 	}
 	public static IDocStorage create(Context context) {
@@ -75,40 +69,37 @@ public class DocStorage implements IDocStorage {
 	
 	//remove all the files :(
 	private void RemoveAll(File storageDir) {
-		// TODO Auto-generated method stub
-		File tagTreeFile = new File(storageDir, TAG_TREE_FILE);
-		if (tagTreeFile.exists()) {
-			tagTreeFile.delete();
+		
+		if (_tagTreeFile.exists())
+			_tagTreeFile.delete();
+		
+		if (_namesDir.exists() && _namesDir.isDirectory()) {
+			String[] children = _namesDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_namesDir, children[i]).delete();
+	        }
 		}
 		
-//		if (_namesDir.exists() && _namesDir.isDirectory()) {
-//			String[] children = _namesDir.list();
-//	        for (int i = 0; i < children.length; i++) {
-//	            new File(_namesDir, children[i]).delete();
-//	        }
-//		}
-//		
-//		if (_imagesDir.exists() && _imagesDir.isDirectory()) {
-//			String[] children = _imagesDir.list();
-//	        for (int i = 0; i < children.length; i++) {
-//	            new File(_imagesDir, children[i]).delete();
-//	        }
-//		}
-//		
-//		if (_tagsDir.exists() && _tagsDir.isDirectory()) {
-//			String[] children = _tagsDir.list();
-//	        for (int i = 0; i < children.length; i++) {
-//	            new File(_tagsDir, children[i]).delete();
-//	        }
-//		}
-//		
-//		if (_ocrDir.exists() && _ocrDir.isDirectory()) {
-//			String[] children = _ocrDir.list();
-//	        for (int i = 0; i < children.length; i++) {
-//	            new File(_ocrDir, children[i]).delete();
-//	        }
-//		}
+		if (_imagesDir.exists() && _imagesDir.isDirectory()) {
+			String[] children = _imagesDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_imagesDir, children[i]).delete();
+	        }
+		}
 		
+		if (_tagsDir.exists() && _tagsDir.isDirectory()) {
+			String[] children = _tagsDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_tagsDir, children[i]).delete();
+	        }
+		}
+		
+		if (_ocrDir.exists() && _ocrDir.isDirectory()) {
+			String[] children = _ocrDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(_ocrDir, children[i]).delete();
+	        }
+		}
 	}
 	
 	private DocStorage(Context context)
@@ -122,36 +113,27 @@ public class DocStorage implements IDocStorage {
 		_ocrDir = context.getDir("OCR", Context.MODE_PRIVATE);
 		
 		//RemoveAll(_storageDir);
-		
 		_tagTreeFile = new File(_storageDir, TAG_TREE_FILE);
+		_tagTree = new HashMap<String, List<String>>();
+		if (_tagTreeFile.exists())
+			loadTagTree();
+		else
+			_tagTree = OcrProcessor.builtInTagTree();
 		
-		if (!_tagTreeFile.exists()) {
-			
-			String s = ROOT_TAG + "\t";
-			
-			for (int i = 0; i < OcrProcessor.Tags.length; i++) {
-				s += OcrProcessor.Tags[i][0] + "\t";
-			}
-			s+= "\n";
-			
-			//now add all others
-			for (int i = 0; i < OcrProcessor.Tags.length; i++) {
-//				for(int j = 0;  j < OcrProcessor.Tags[i].length; j++ )
-//				{
-//					s += OcrProcessor.Tags[i][j] + "\t";
-//				}
-				
-				s+= join(Arrays.asList(OcrProcessor.Tags[i]), "\t");
-				s+= "\n";
-			}
-			
-			//s = ROOT_TAG + "\t" + join(Arrays.asList(OcrProcessor.Tags), "\t");
-			writeTextFile(_tagTreeFile, s);
-		}
 		load();
 	}
-	
-
+		
+	private void loadTagTree() {
+		List<String> lines = readTextFile(_tagTreeFile);
+		for (String line : lines) {
+			String [] parts = line.split("\t");
+			String parent = parts[0];
+			List<String> children = new ArrayList<String>(
+				Arrays.asList(parts).subList(1, parts.length));
+			_tagTree.put(parent, children);
+		}
+	}
+		
 	public File getImageDir()
 	{
 		return _imagesDir;
@@ -170,41 +152,6 @@ public class DocStorage implements IDocStorage {
 		return true;
 	}
 	
-	
-	public boolean appendNewTag(File file, String s)
-	{
-		try {
-			 BufferedReader reader = new BufferedReader(new FileReader(file));
-			 String line = null;
-			 String input = null;
-			 boolean first = true;
-			 
-			 while ((line = reader.readLine()) != null){
-				 if(first)
-				 {
-					 input = line + s + "\t" + '\n'; //so that this will be under root as well
-					 first = false;
-				 }
-				 else
-				 {
-					 input += line + '\n';
-				 }
-			}
-			
-			input += s + "\n"; 
-			reader.close();
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		    writer.write (input);
-			writer.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-
-	
 	private void load() {
 		File [] files = _imagesDir.listFiles(new FilenameFilter() {
 			@Override
@@ -221,24 +168,13 @@ public class DocStorage implements IDocStorage {
 		_docsByTag = new HashMap<String, HashSet<String>>();
 		_tagsByDoc = new HashMap<String, HashSet<String>>();
 		_docsById = new HashMap<String, DocResult>();
-		_tagTree = new HashMap<String, List<String>>();
 		
 		for (String id : docIds) {
 			List<String> tags = readTextFile(new File(_tagsDir, id + TXT_EXTENSION));
 			_tagsByDoc.put(id, new HashSet<String>(tags));
 			for (String tag : tags)
 				addDocToTag(tag, id);
-		}
-		
-		if (_tagTreeFile.exists()) {
-			List<String> lines = readTextFile(_tagTreeFile);
-			for (String line : lines) {
-				String [] parts = line.split("\t");
-				String parent = parts[0];
-				List<String> children = Arrays.asList(parts).subList(1, parts.length);
-				_tagTree.put(parent, children);
-			}
-		}
+		}		
 	}
 
 	private DocResult load(String id) {
@@ -251,7 +187,6 @@ public class DocStorage implements IDocStorage {
 			String ocr = readTextFileAsString(ocrFile);
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
 			List<String> tags = readTextFile(tagFile);
-			
 			
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			Date date = new Date(image.lastModified());     
@@ -402,19 +337,33 @@ public class DocStorage implements IDocStorage {
 	@Override
 	public Collection<String> getChildTags(String tag) {
 		if (tag == null)
-			tag = ROOT_TAG;
+			tag = OcrProcessor.ROOT_TAG;
 		return _tagTree.get(tag);
 	}
+	
 	@Override
-	public void AddExtraTag(String text) {
-		// TODO Auto-generated method stub
-		ArrayList<String> top_tags = new ArrayList<String>(_tagTree.get(ROOT_TAG));
-		top_tags.add(text);
-		_tagTree.put(ROOT_TAG, top_tags);
-		_tagTree.put(text, new ArrayList<String>()); //TODO: is this correct?
-		
-		if (_tagTreeFile.exists()) {
-			appendNewTag(_tagTreeFile, text);
+	public boolean createTag(String name, String parent) {
+		if (parent == null)
+			parent = OcrProcessor.ROOT_TAG;
+		else if (! _tagTree.get(OcrProcessor.ROOT_TAG).contains(parent)) {
+			System.out.println("createTag - trying to add tag " + name + " under parent " + parent + ", but parent does not exist");
+			return false;
 		}
+		if (! _tagTree.containsKey(parent))
+			_tagTree.put(parent, new ArrayList<String>());
+		List<String> children = _tagTree.get(parent);
+		if (children.contains(name)) {
+			System.out.println("createTag - trying to create top-level tag " + name + " which already exists");
+			return true;
+		}
+		children.add(name);
+		// rewrite the tag tree file
+		StringBuilder sb = new StringBuilder();
+		for (String topLevel : _tagTree.keySet()) {
+			List<String> childList = _tagTree.get(topLevel);
+			sb.append(topLevel + "\t" + join(childList, "\t") + "\n");
+		}
+		writeTextFile(_tagTreeFile, sb.toString());
+		return true;
 	}
 }

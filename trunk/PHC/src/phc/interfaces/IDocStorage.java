@@ -1,6 +1,5 @@
 package phc.interfaces;
 
-import java.io.File;
 import java.util.Collection;
 
 import phc.objects.DocResult;
@@ -17,7 +16,9 @@ public interface IDocStorage
 	Collection<DocResult> queryDocsByTags(Collection<String> tags);
 	// Get the (flat) list of tags
 	Collection<String> getExistingTags();
-	//Get the child tags of a specific tag - pass null to get topmost level
+	// Get the child tags of a specific tag - pass null to get topmost level
 	Collection<String> getChildTags(String tag);
-	void AddExtraTag(String text);
+	// Create new tag under specified parent (pass null as parent for top level tag)
+	// Returns true on success, false on failure.
+	boolean createTag(String name, String parent);
 }
