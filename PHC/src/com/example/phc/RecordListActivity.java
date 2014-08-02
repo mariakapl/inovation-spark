@@ -45,7 +45,6 @@ public class RecordListActivity extends ListActivity {
       List<String> tags = null;
       
       Collection<String> children = _docStorage.getChildTags(parentTag);
-      
       if(children != null)
       {
     	  tags = new ArrayList<String>(children);

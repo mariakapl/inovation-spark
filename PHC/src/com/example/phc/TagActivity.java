@@ -1,7 +1,6 @@
 package com.example.phc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +8,6 @@ import java.util.List;
 import phc.interfaces.IDocStorage;
 import phc.objects.ScannedDoc;
 import phc.storage.DocStorage;
-
-import edu.sfsu.cs.orange.ocr.CaptureActivity;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -21,16 +17,14 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Toast;
+import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 public class TagActivity extends FragmentActivity {
-
-	
 	
 	ExpandableListView expListView = null;
 	ArrayList<String> existingTags = null;
@@ -40,6 +34,7 @@ public class TagActivity extends FragmentActivity {
 	Bitmap _bitmap;
 	String _ocr;
 	ExpandableListAdapter listAdapter = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,7 +44,6 @@ public class TagActivity extends FragmentActivity {
 		Parcelable p = intent.getParcelableExtra(CaptureActivity.BITMAP_EXTRA);
 		_bitmap = (Bitmap) p;
 		imageView.setImageBitmap(_bitmap);
-		
 		
 	    listDataHeader = new ArrayList<String>();
         listDataHeader.add("Suggested tags");
@@ -135,7 +129,6 @@ public class TagActivity extends FragmentActivity {
 	}
 	
 	public void doPositiveClick(String text) {
-		// TODO Auto-generated method stub
 
 		ExpandableListAdapter adapter = 
 		        (ExpandableListAdapter) expListView.getExpandableListAdapter();
@@ -145,10 +138,7 @@ public class TagActivity extends FragmentActivity {
 	    listDataChild.put(listDataHeader.get(1), existingTags);
 		adapter.notifyDataSetChanged();
 		
-		//add this tag to tag document
-		DocStorage.get().AddExtraTag(text);
-		
-		
+		_docStorage.createTag(text, null);
 		//TODO: check box this choice
 	}
 
