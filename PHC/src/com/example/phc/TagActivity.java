@@ -1,7 +1,6 @@
 package com.example.phc;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,15 +55,8 @@ public class TagActivity extends FragmentActivity {
 	    _docStorage = DocStorage.get();
 	    existingTags = new ArrayList<String>();
 	    if (_docStorage != null) {
-	    	
-//	    	existingTags.addAll(_docStorage.getChildTags(null));
-//	    	existingTags.removeAll(suggestedTags);
-	    	
-	    	ArrayList<String> all_tags = new ArrayList<String>();
-	    	getAlltags(null , all_tags);
-	    	all_tags.removeAll(suggestedTags);
-	    	existingTags = all_tags;
-	    	    	
+	    	existingTags.addAll(_docStorage.getExistingTags());
+	    	existingTags.removeAll(suggestedTags);
 	    }
 	    listDataChild.put(listDataHeader.get(1), existingTags);
 	    listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
@@ -74,25 +66,6 @@ public class TagActivity extends FragmentActivity {
 
 	}
 
-	private void getAlltags(String tag, ArrayList<String> all_tags)
-	{
-		ArrayList<String> level_tags = new ArrayList<String>();;
-		
-		Collection<String> collection = _docStorage.getChildTags(tag);
-		
-		if(collection == null || collection.size() == 0)
-			return;
-		
-		level_tags.addAll(collection);
-		
-		for(String level_tag : level_tags)
-		{
-			all_tags.add(level_tag);
-			getAlltags(level_tag, all_tags);
-		}
-	}
-	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -202,20 +175,4 @@ public class TagActivity extends FragmentActivity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 	    startActivity(intent);
 	}
-
-	
-//	private static class CheckedItem
-//	{
-//		public CheckedItem(long group_pos, long pos) {
-//			group = group_pos;
-//			child = pos;
-//		}
-//		public long group;
-//		public long child;
-//	}
-//	
-//	public void SetCheck(long group_pos, long pos, boolean isChecked) {
-//		// TODO Auto-generated method stub
-//		checkboxMap.put(new CheckedItem(group_pos, pos), isChecked);
-//	}
 }
