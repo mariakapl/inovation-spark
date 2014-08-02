@@ -133,7 +133,6 @@ public class TagActivity extends FragmentActivity {
 		}
 		Bitmap bitmap = _bitmap;
 		ExpandableListAdapter adapter = listAdapter;
-//			(ExpandableListAdapter) expListView.getExpandableListAdapter();
 		List<String> tags = new ArrayList<String>();
 		for (int i = 0; i < adapter.getGroupCount(); i++)
 		{
@@ -141,30 +140,14 @@ public class TagActivity extends FragmentActivity {
 			{
 				View v = adapter.getChildView(i, j, false, null, null);
 		        CheckBox cb = (CheckBox) v.findViewById(R.id.checkboxListItem);
-		        //if (cb.isChecked())
-//		        for(CheckedItem item : checkboxMap.keySet())
-//		        {
-//		        	if(item.group == i && item.child == j)
-//		        	{
-//		        		tags.add(cb.getText().toString());
-//		        	}
-//		        }
-		        if(i == 0) //TODO: make it nicer
-		        {
+		        if(i == 0) { //TODO: make it nicer
 		        	if(adapter.checkboxMapSuggested.containsKey(j) && adapter.checkboxMapSuggested.get(j))
-		        	{
 		        		tags.add(cb.getText().toString());
-		        	}
 		        }
-		        
-		        if(i == 1)
-		        {
+		        if(i == 1) {
 		        	if(adapter.checkboxMapExisting.containsKey(j) && adapter.checkboxMapExisting.get(j))
-		        	{
 		        		tags.add(cb.getText().toString());
-		        	}
 		        }
-		        
 			}
 		}
 		String ocr = _ocr;
