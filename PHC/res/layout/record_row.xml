@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:gravity="top"
-    android:orientation="vertical" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:descendantFocusability="blocksDescendants">
   
-<ImageView
+  <ImageView
     android:id="@+id/record_Icon1"
     android:layout_width="50dip"
-    android:layout_height="50dip" >
-</ImageView>
-               
-<TextView android:text="@+id/TextView01"
+    android:layout_height="50dip"
+    android:clickable="true"/>
+  <TextView
     android:id="@+id/TextView01"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -19,16 +18,30 @@
     android:textColor="#040404"
     android:typeface="sans"
     android:textSize="20sp"
-    android:layout_toRightOf="@+id/record_Icon1"
-    android:layout_marginTop="5dip" 
-    android:layout_marginLeft="5dip">
-</TextView>
-<TextView android:text="@+id/TextViewDate"
-    android:id="@+id/TextViewDate"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/TextView01"
-    android:layout_alignParentRight="true"
-    android:layout_marginLeft="5dip">
-</TextView>
-</RelativeLayout>
+    android:layout_weight="0.25"
+    android:gravity="center" />
+  
+  <TextView
+      android:id="@+id/TextViewDate"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:layout_marginLeft="5dip"
+      android:layout_weight="0.25"
+      android:gravity="bottom"
+      android:scaleType="center" />
+
+
+ <ImageButton
+    android:id="@+id/imageButton1"
+    android:layout_width="50dip"
+    android:layout_height="50dip"
+    android:src="@drawable/share_button"
+    android:scaleType="fitXY"
+    android:focusable="false"
+    android:background="@android:color/transparent"
+    android:padding="0dp"/>
+    
+
+
+</LinearLayout>

@@ -2,13 +2,17 @@ package com.example.phc;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import phc.objects.DocResult;
 
 public class RecordAdapter extends  ArrayAdapter<DocResult> {
@@ -45,6 +49,27 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
         return 2;
     }
     
+    View.OnClickListener imgButtonHandler = new View.OnClickListener() {
+
+        public void onClick(View v) {
+
+        
+            AlertDialog.Builder builder = new AlertDialog.Builder(c);
+            builder.setTitle("Share With");
+            builder.setItems(new CharSequence[]{"Dr. Alon", "Dr. Sharon", "Dr. Levi"}, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    // Do something with the selection
+                    //mDoneButton.setText(items[item]);
+               	 Toast.makeText( c,
+                  "Document Shared",
+                  Toast.LENGTH_SHORT).show();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        }
+    };
     
      @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,7 +90,7 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
 	                	   layoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	                       v = convertView = layoutInflater.inflate(R.layout.tag_row, null);
 	                       
-	                       TextView tag_name = (TextView) convertView.findViewById(R.id.TextView01);
+	                       TextView tag_name = (TextView) convertView.findViewById(R.id.TagRow1);
 	                       
 	                       if(tag_name!=null)
 	                    	   tag_name.setText(o.id());
@@ -80,11 +105,14 @@ public class RecordAdapter extends  ArrayAdapter<DocResult> {
 	                       TextView t3 = (TextView) convertView.findViewById(R.id.TextViewDate);
 	                       /* Take the ImageView from layout and set the city's image */
 	                       
-	                       //TODO: set the image
-	                       
 	                       
 	                       ImageView image = (ImageView) v.findViewById(R.id.record_Icon1);
 	                       
+	                       
+	               		  ImageButton button = 
+	               				(ImageButton)v.findViewById( R.id.imageButton1);
+	               			button.setOnClickListener(imgButtonHandler);
+	               			
 	                       if(image != null && o.scannedDoc() != null && o.scannedDoc().bitmap() != null)
 	                    	   image.setImageBitmap(o.scannedDoc().bitmap());
 	//                           String uri = "drawable/" + o.getImage();

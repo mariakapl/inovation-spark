@@ -13,9 +13,11 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class RecordListActivity extends ListActivity  {
+public class RecordListActivity extends ListActivity {
 
 	public static final String DOCRESULT_EXTRA = "doc_result";
 	/** Called when the activity is first created. */
@@ -33,16 +35,6 @@ public class RecordListActivity extends ListActivity  {
 	      }
 	    
 	    fillContent(tag);
-//        setContentView(R.layout.activity_records_list);
-//	    // TODO Auto-generated method stub
-//        List<DocResult> docs = new ArrayList<DocResult>();
-//        
-//        int tag_number = 3;
-//        RecordAdapter adapter=  new RecordAdapter(this,R.layout.record_row,docs, tag_number);
-//        
-//        ListView listView1 = (ListView) findViewById(android.R.id.list);
-//        
-//        listView1.setAdapter(adapter);
         
 	}
 
