@@ -58,10 +58,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         CheckBox txtListChild = (CheckBox)grid.findViewById(R.id.checkboxListItem);
         txtListChild.setText(childText);
         
-        if(groupPosition == 0)
-        	 txtListChild.setChecked(checkboxMapSuggested.containsKey(childPosition) ? checkboxMapSuggested.get(childPosition) : true);
-        if(groupPosition == 1)
-       	 	txtListChild.setChecked(checkboxMapExisting.containsKey(childPosition) ? checkboxMapExisting.get(childPosition) : false);
+        if(groupPosition == 0) {
+        	if (!checkboxMapSuggested.containsKey(childPosition))
+        		SetCheck(groupPosition, childPosition, true);	// by default, checked
+        	txtListChild.setChecked(checkboxMapSuggested.get(childPosition));
+        }
+        if(groupPosition == 1) {
+        	if (!checkboxMapExisting.containsKey(childPosition))
+        		SetCheck(groupPosition, childPosition, false);	// by default, unchecked
+       	 	txtListChild.setChecked(checkboxMapExisting.get(childPosition));
+        }
         
         CheckListener checkL = new CheckListener();
         checkL.setPosition(groupPosition,childPosition);
