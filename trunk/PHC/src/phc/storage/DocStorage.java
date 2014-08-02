@@ -330,7 +330,13 @@ public class DocStorage implements IDocStorage {
 
 	@Override
 	public Collection<String> getExistingTags() {
-		return null;
+		List<String> tags = new ArrayList<String>();
+		for (String tag : _tagTree.get(OcrProcessor.ROOT_TAG)) {
+			tags.add(tag);
+			if (_tagTree.containsKey(tag))
+				tags.addAll(_tagTree.get(tag));
+		}
+		return tags;
 	}
 
 
