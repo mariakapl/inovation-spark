@@ -23,7 +23,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> _listDataChild;
     public HashMap<Integer,Boolean> checkboxMapSuggested = new HashMap<Integer,Boolean>();
     public HashMap<Integer,Boolean> checkboxMapExisting = new HashMap<Integer,Boolean>();
-    //public HashMap<Long,Boolean> checkboxMap = new HashMap<Long,Boolean>();
  
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
             HashMap<String, List<String>> listChildData) {
@@ -57,12 +56,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         //}
  
         CheckBox txtListChild = (CheckBox)grid.findViewById(R.id.checkboxListItem);
- 
         txtListChild.setText(childText);
         
-        
         if(groupPosition == 0)
-        	 txtListChild.setChecked(checkboxMapSuggested.containsKey(childPosition) ? checkboxMapSuggested.get(childPosition) : false);
+        	 txtListChild.setChecked(checkboxMapSuggested.containsKey(childPosition) ? checkboxMapSuggested.get(childPosition) : true);
         if(groupPosition == 1)
        	 	txtListChild.setChecked(checkboxMapExisting.containsKey(childPosition) ? checkboxMapExisting.get(childPosition) : false);
         
