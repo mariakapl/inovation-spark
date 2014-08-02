@@ -8,9 +8,11 @@ import java.util.List;
 
 public class OcrProcessor {
 
+	public static final String BLOOD_TESTS_TAG = "Blood Tests";
+	
 	public static final String ROOT_TAG = "@Root@";
 	public static final String [][] Tags = {
-	    {"Lab Tests", "Blood Tests", "Urine Tests"},
+	    {"Lab Tests", BLOOD_TESTS_TAG, "Urine Tests"},
 	    {"Doctor Referrals"},
 	    {"Hospital Release Notes"},
 		{"Prescriptions"},

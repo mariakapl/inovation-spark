@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import phc.interfaces.IDocStorage;
+import phc.objects.DocResult;
 import phc.objects.ScannedDoc;
 import phc.storage.DocStorage;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -152,9 +154,10 @@ public class TagActivity extends FragmentActivity {
 		}
 		String ocr = _ocr;
 		ScannedDoc doc = new ScannedDoc(name, bitmap, tags, ocr);
-		_docStorage.addDoc(doc);
+		DocResult result = _docStorage.addDoc(doc);
 		Toast.makeText(this, "Document saved", Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(TagActivity.this, MainActivity.class);
+		Class nextActivityClass = WorkflowManager.nextActivity(result);
+		Intent intent = new Intent(TagActivity.this, nextActivityClass);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 	    startActivity(intent);
 	}

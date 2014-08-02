@@ -88,6 +88,14 @@
             android:name=".GraphActivity"
             android:label="@string/title_activity_graph" >
         </activity>
+        <activity
+            android:name=".BloodTestActivity"
+            android:label="@string/title_activity_blood_test"
+            android:parentActivityName=".TagActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.phc.TagActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -26,8 +26,6 @@ import android.graphics.BitmapFactory;
 
 import com.example.phc.OcrProcessor;
 
-
-
 public class DocStorage implements IDocStorage {
 
 	private static final String TAG_TREE_FILE = "tagTree.txt";
@@ -112,6 +110,10 @@ public class DocStorage implements IDocStorage {
 		_tagsDir = context.getDir("Tags", Context.MODE_PRIVATE);
 		_ocrDir = context.getDir("OCR", Context.MODE_PRIVATE);
 		
+		_docsByTag = new HashMap<String, HashSet<String>>();
+		_tagsByDoc = new HashMap<String, HashSet<String>>();
+		_docsById = new HashMap<String, DocResult>();
+		
 		//RemoveAll(_storageDir);
 		_tagTreeFile = new File(_storageDir, TAG_TREE_FILE);
 		_tagTree = new HashMap<String, List<String>>();
@@ -164,10 +166,6 @@ public class DocStorage implements IDocStorage {
 			String name = f.getName();
 			docIds.add(name.substring(0, name.length() - BITMAP_EXTENSION.length()));
 		}
-		
-		_docsByTag = new HashMap<String, HashSet<String>>();
-		_tagsByDoc = new HashMap<String, HashSet<String>>();
-		_docsById = new HashMap<String, DocResult>();
 		
 		for (String id : docIds) {
 			List<String> tags = readTextFile(new File(_tagsDir, id + TXT_EXTENSION));
@@ -294,7 +292,7 @@ public class DocStorage implements IDocStorage {
 		for (String tag : doc.tags())
 			addDocToTag(tag, id);
 		save(id, doc);
-		return null;
+		return load(id);
 	}
 
 	@Override
@@ -327,7 +325,7 @@ public class DocStorage implements IDocStorage {
 			res.add(load(doc));
 		return res;
 	}
-
+	
 	@Override
 	public Collection<String> getExistingTags() {
 		List<String> tags = new ArrayList<String>();
