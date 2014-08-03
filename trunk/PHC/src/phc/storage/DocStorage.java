@@ -1,13 +1,8 @@
 package phc.storage;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +16,7 @@ import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
 import phc.objects.ScannedDoc;
 import phc.processing.DocumentProcessor;
+import phc.utils.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -128,7 +124,7 @@ public class DocStorage implements IDocStorage {
 	}
 		
 	private void loadTagTree() {
-		List<String> lines = readTextFile(_tagTreeFile);
+		List<String> lines = Utils.readTextFile(_tagTreeFile);
 		for (String line : lines) {
 			String [] parts = line.split("\t");
 			String parent = parts[0];
@@ -141,19 +137,6 @@ public class DocStorage implements IDocStorage {
 	public File getImageDir()
 	{
 		return _imagesDir;
-	}
-	
-	public boolean writeTextFile(File file, String s)
-	{
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		    writer.write (s);
-			writer.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
 	}
 	
 	private void load() {
@@ -170,7 +153,7 @@ public class DocStorage implements IDocStorage {
 		}
 		
 		for (String id : docIds) {
-			List<String> tags = readTextFile(new File(_tagsDir, id + TXT_EXTENSION));
+			List<String> tags = Utils.readTextFile(new File(_tagsDir, id + TXT_EXTENSION));
 			_tagsByDoc.put(id, new HashSet<String>(tags));
 			for (String tag : tags)
 				addDocToTag(tag, id);
@@ -180,13 +163,13 @@ public class DocStorage implements IDocStorage {
 	private DocResult load(String id) {
 		if (!_docsById.containsKey(id)) {
 			File nameFile = new File(_namesDir, id + TXT_EXTENSION);
-			String name = readTextFileAsString(nameFile);
+			String name = Utils.readTextFileAsString(nameFile);
 			File image = new File(_imagesDir, id + BITMAP_EXTENSION);
 			Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
 			File ocrFile = new File(_ocrDir, id + TXT_EXTENSION);
-			String ocr = readTextFileAsString(ocrFile);
+			String ocr = Utils.readTextFileAsString(ocrFile);
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
-			List<String> tags = readTextFile(tagFile);
+			List<String> tags = Utils.readTextFile(tagFile);
 			
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			Date date = new Date(image.lastModified());     
@@ -214,11 +197,11 @@ public class DocStorage implements IDocStorage {
 		}
 		if (doc.name() != null) {
 			File name = new File(_namesDir, id + TXT_EXTENSION);
-			writeTextFile(name, doc.name());
+			Utils.writeTextFile(name, doc.name());
 		}
 		if (doc.ocr() != null) {
 			File ocr = new File(_ocrDir, id + TXT_EXTENSION);
-			writeTextFile(ocr, doc.ocr());
+			Utils.writeTextFile(ocr, doc.ocr());
 		}
 		if (doc.tags() != null) {
 			StringBuilder sb = new StringBuilder();
@@ -228,7 +211,7 @@ public class DocStorage implements IDocStorage {
 				sb.append(tag);
 			}
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
-			writeTextFile(tagFile, sb.toString());
+			Utils.writeTextFile(tagFile, sb.toString());
 		}
 		return true;
 	}
@@ -239,37 +222,6 @@ public class DocStorage implements IDocStorage {
 		_tagsByDoc.get(docId).add(tag);
 	}
 
-	public static String join(List<String> lines, String separator) {
-		StringBuilder sb = new StringBuilder();
-		for (String line : lines)
-			sb.append(line + separator);
-		sb.setLength(sb.length() - 1);
-		return sb.toString();
-	}
-	
-	public static String readTextFileAsString(File file)
-	{
-		List<String> lines = readTextFile(file);
-		return join(lines, "\n");
-	}
-
-	public static List<String> readTextFile(File file)
-	{
-		List<String> lines = new ArrayList<String>();
-		try {
-		    BufferedReader br = new BufferedReader(new FileReader(file));
-		    String line;
-		    while ((line = br.readLine()) != null)
-		    	lines.add(line);
-		    br.close();
-		}
-		catch (IOException e) {
-			return null;
-		}
-		return lines;
-		
-	}
-	
 	private void addDocToTag(String tag, String docId) {
 		if (! _docsByTag.containsKey(tag))
 			_docsByTag.put(tag, new HashSet<String>());
@@ -369,9 +321,9 @@ public class DocStorage implements IDocStorage {
 		StringBuilder sb = new StringBuilder();
 		for (String topLevel : _tagTree.keySet()) {
 			List<String> childList = _tagTree.get(topLevel);
-			sb.append(topLevel + "\t" + join(childList, "\t") + "\n");
+			sb.append(topLevel + "\t" + Utils.join(childList, "\t") + "\n");
 		}
-		writeTextFile(_tagTreeFile, sb.toString());
+		Utils.writeTextFile(_tagTreeFile, sb.toString());
 		return true;
 	}
 }
