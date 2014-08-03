@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class OcrProcessor {
+public class TagExtractor {
 
 	public static final String BLOOD_TESTS_TAG = "Blood Tests";
 	
@@ -38,7 +38,7 @@ public class OcrProcessor {
 		// Create the built-in tag tree
 		_sBuiltInTagTree = new HashMap<String, List<String>>();
 		List<String> topLevel = new ArrayList<String>();
-		for (String [] tags : OcrProcessor.Tags) {
+		for (String [] tags : TagExtractor.Tags) {
 			String parent = tags[0];
 			List<String> children = new ArrayList<String>(
 				Arrays.asList(tags).subList(1, tags.length));
@@ -72,7 +72,7 @@ public class OcrProcessor {
 	
 	private String _ocr;
 	
-	public OcrProcessor(String ocr) {
+	public TagExtractor(String ocr) {
 		_ocr = ocr.toLowerCase();
 	}
 		

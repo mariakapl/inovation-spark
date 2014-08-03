@@ -21,4 +21,6 @@ public interface IDocStorage
 	// Create new tag under specified parent (pass null as parent for top level tag)
 	// Returns true on success, false on failure.
 	boolean createTag(String name, String parent);
+	// Remove all existing documents - only for debugging
+	void clear();
 }
