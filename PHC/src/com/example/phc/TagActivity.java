@@ -51,7 +51,7 @@ public class TagActivity extends FragmentActivity {
         listDataHeader.add("Existing tags");
         listDataChild = new HashMap<String, List<String>>();
 	   	_ocr = intent.getStringExtra(CaptureActivity.OCR_RESULT_TEXT_EXTRA);
-	   	OcrProcessor op = new OcrProcessor(_ocr);
+	   	TagExtractor op = new TagExtractor(_ocr);
 	    ArrayList<String> suggestedTags = new ArrayList<String>(op.suggestedTags());
 	    listDataChild.put(listDataHeader.get(0), suggestedTags);
 	    _docStorage = DocStorage.get();

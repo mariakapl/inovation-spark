@@ -20,11 +20,12 @@ import java.util.List;
 import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
 import phc.objects.ScannedDoc;
+import phc.processing.DocumentProcessor;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.phc.OcrProcessor;
+import com.example.phc.TagExtractor;
 
 public class DocStorage implements IDocStorage {
 
@@ -66,7 +67,8 @@ public class DocStorage implements IDocStorage {
 	}
 	
 	//remove all the files :(
-	private void RemoveAll(File storageDir) {
+	@Override
+	public void clear() {
 		
 		if (_tagTreeFile.exists())
 			_tagTreeFile.delete();
@@ -120,7 +122,7 @@ public class DocStorage implements IDocStorage {
 		if (_tagTreeFile.exists())
 			loadTagTree();
 		else
-			_tagTree = OcrProcessor.builtInTagTree();
+			_tagTree = TagExtractor.builtInTagTree();
 		
 		load();
 	}
@@ -292,7 +294,9 @@ public class DocStorage implements IDocStorage {
 		for (String tag : doc.tags())
 			addDocToTag(tag, id);
 		save(id, doc);
-		return load(id);
+		DocResult res = load(id);
+		DocumentProcessor.instance().process(_context, res);
+		return res;
 	}
 
 	@Override
@@ -329,7 +333,7 @@ public class DocStorage implements IDocStorage {
 	@Override
 	public Collection<String> getExistingTags() {
 		List<String> tags = new ArrayList<String>();
-		for (String tag : _tagTree.get(OcrProcessor.ROOT_TAG)) {
+		for (String tag : _tagTree.get(TagExtractor.ROOT_TAG)) {
 			tags.add(tag);
 			if (_tagTree.containsKey(tag))
 				tags.addAll(_tagTree.get(tag));
@@ -341,15 +345,15 @@ public class DocStorage implements IDocStorage {
 	@Override
 	public Collection<String> getChildTags(String tag) {
 		if (tag == null)
-			tag = OcrProcessor.ROOT_TAG;
+			tag = TagExtractor.ROOT_TAG;
 		return _tagTree.get(tag);
 	}
 	
 	@Override
 	public boolean createTag(String name, String parent) {
 		if (parent == null)
-			parent = OcrProcessor.ROOT_TAG;
-		else if (! _tagTree.get(OcrProcessor.ROOT_TAG).contains(parent)) {
+			parent = TagExtractor.ROOT_TAG;
+		else if (! _tagTree.get(TagExtractor.ROOT_TAG).contains(parent)) {
 			System.out.println("createTag - trying to add tag " + name + " under parent " + parent + ", but parent does not exist");
 			return false;
 		}

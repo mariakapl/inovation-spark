@@ -1,17 +1,13 @@
 package com.example.phc;
 
 import phc.storage.DocStorage;
-import edu.sfsu.cs.orange.ocr.CaptureActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.content.Intent;
+import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -37,6 +33,7 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+        	DocStorage.get().clear();
             return true;
         }
         return super.onOptionsItemSelected(item);
