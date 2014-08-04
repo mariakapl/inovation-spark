@@ -22,7 +22,7 @@ public class Utils {
 	public static String readTextFileAsString(File file)
 	{
 		List<String> lines = readTextFile(file);
-		return join(lines, "\n");
+		return join(lines, "\n") + "\n";
 	}
 
 	public static List<String> readTextFile(File file)
