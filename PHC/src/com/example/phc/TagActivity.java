@@ -8,7 +8,6 @@ import phc.interfaces.IDocStorage;
 import phc.objects.DocResult;
 import phc.objects.ScannedDoc;
 import phc.storage.DocStorage;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;

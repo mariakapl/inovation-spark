@@ -2,24 +2,23 @@ package phc.processing;
 
 import java.util.regex.Pattern;
 
-public class BloodTestProcessor extends SimpleTermDocProcessor {
+public class MedicineProcessor extends SimpleTermDocProcessor {
 
-	private static final String [] _tests = {
-		"Hemoglobin"
+	private static final String [] _medicine = {
+		"Aspirin"
 	};
 	
-	public BloodTestProcessor() {
-		super("BloodTest");
+	public MedicineProcessor() {
+		super("Medicine");
 	}
 
 	@Override
 	protected String[] terms() {
-		return _tests;
+		return _medicine;
 	}
-
+	
 	@Override
 	Pattern pattern(String term) {
 		return Pattern.compile("\\b(" + term + ")\\s+((\\d|\\.)+)");
 	}
-	
 }
