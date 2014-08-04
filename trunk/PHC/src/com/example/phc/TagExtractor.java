@@ -9,13 +9,14 @@ import java.util.List;
 public class TagExtractor {
 
 	public static final String BLOOD_TESTS_TAG = "Blood Tests";
+	public static final String PRESCRIPTIONS_TAG = "Prescriptions";
 	
 	public static final String ROOT_TAG = "@Root@";
 	public static final String [][] Tags = {
 	    {"Lab Tests", BLOOD_TESTS_TAG, "Urine Tests"},
 	    {"Doctor Referrals"},
 	    {"Hospital Release Notes"},
-		{"Prescriptions"},
+		{PRESCRIPTIONS_TAG},
 	    {"Imaging", "X-ray", "CT", "MRI"},
 	    {"Allergy"},
 	    {"Vaccinations"}
@@ -26,12 +27,13 @@ public class TagExtractor {
 	}
 
 	public static final String [][] RelevantWords = {
-	    {"Blood Tests", "Glucose"},
+	    {BLOOD_TESTS_TAG, "Hemoglobin"},
 	    {"Urine Tests", "Protein"},
 	    {"Doctor Referrals", "Exam", "Pain", "Headache"},
-		{"Prescriptions", "Drug", "Antibiotics", "Drops", "Pill"},
+		{PRESCRIPTIONS_TAG, "Drug", "Antibiotics", "Drops", "Pill", "Aspirin"},
 	    {"Vaccinations", "varicella", "rubella"}
 	};
+	
 	private static HashMap<String, List<String>> _sExpressionsToTags;
 
 	static {

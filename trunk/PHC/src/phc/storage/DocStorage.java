@@ -96,6 +96,8 @@ public class DocStorage implements IDocStorage {
 	            new File(_ocrDir, children[i]).delete();
 	        }
 		}
+		
+		DocumentProcessor.instance().clear(_context);
 	}
 	
 	private DocStorage(Context context)

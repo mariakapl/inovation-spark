@@ -150,14 +150,4 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-    
-	private static class CheckedItem
-	{
-		public CheckedItem(long group_pos, long pos) {
-			group = group_pos;
-			child = pos;
-		}
-		public long group;
-		public long child;
-	}
 }
