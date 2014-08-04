@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class TagExtractor {
@@ -78,8 +79,8 @@ public class TagExtractor {
 		_ocr = ocr.toLowerCase();
 	}
 		
-	public Collection<String> suggestedTags() {
-		ArrayList<String> tags = new ArrayList<String>();
+	public HashSet<String> suggestedTags() {
+		HashSet<String> tags = new HashSet<String>();
 		for (String s : _sExpressionsToTags.keySet()) {
 			if (_ocr.contains(s))
 				tags.addAll(_sExpressionsToTags.get(s));
