@@ -432,10 +432,17 @@ abstract public class GraphView extends LinearLayout {
                 if (i==0)
                     paint.setTextAlign(Align.LEFT);
                 paint.setColor(graphViewStyle.getHorizontalLabelsColor());
-                canvas.drawText(horlabels[i], x, height - 4, paint);
+                
+              //  canvas.drawText(horlabels[i], x, height - 4, paint);
+                
+                float y = height - 4;
+                for(String line: horlabels[i].split(" ")){
+                    canvas.drawText(line, x, y, paint);
+                    y+= paint.ascent()+paint.descent();
+                }
+              }
             }
 		}
-	}
 
 	protected void drawLegend(Canvas canvas, float height, float width) {
 		float textSize = paint.getTextSize();
