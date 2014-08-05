@@ -29,6 +29,7 @@ import android.graphics.Rect;
  */
 public class OcrResult {
   private Bitmap bitmap;
+  private Bitmap originalBitmap;
   private String text;
   
   private int[] wordConfidences;
@@ -79,7 +80,14 @@ public class OcrResult {
     return getAnnotatedBitmap();
   }
   
+  public Bitmap getOriginalBitmap()
+  {
+	  return originalBitmap;
+  }
+  
   private Bitmap getAnnotatedBitmap() {
+	  
+    originalBitmap = Bitmap.createBitmap(bitmap);
     Canvas canvas = new Canvas(bitmap);
     
     // Draw bounding boxes around each word

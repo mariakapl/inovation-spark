@@ -716,6 +716,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     ImageView bitmapImageView = (ImageView) findViewById(R.id.image_view);
     lastBitmap = ocrResult.getBitmap();
+    Bitmap originalBitmap = ocrResult.getOriginalBitmap();
     if (lastBitmap == null) {
       bitmapImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(),
           R.drawable.ic_launcher));
@@ -737,7 +738,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     
     Intent tagDoc = new Intent(this, TagActivity.class);
     tagDoc.putExtra(OCR_RESULT_TEXT_EXTRA, ocrResult.getText());
-    tagDoc.putExtra(BITMAP_EXTRA, lastBitmap);
+    //tagDoc.putExtra(BITMAP_EXTRA, lastBitmap);
+    tagDoc.putExtra(BITMAP_EXTRA, originalBitmap);
     startActivity(tagDoc);
     return true;
   }
