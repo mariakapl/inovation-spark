@@ -13,13 +13,11 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class RecordListActivity extends ListActivity {
 
-	public static final String DOCRESULT_EXTRA = "doc_result";
+	public static final String DOCID_EXTRA = "doc_id";
 	/** Called when the activity is first created. */
 	RecordAdapter adapter = null;
 	IDocStorage _docStorage;
@@ -91,7 +89,7 @@ public class RecordListActivity extends ListActivity {
 	private void onDocClick(DocResult o) {
 		//open a new activity to watch the document
 		Intent intent = new Intent(this, ScannedDocPresentationActivity.class);
-		intent.putExtra(DOCRESULT_EXTRA, o);
+		intent.putExtra(DOCID_EXTRA, o.id());
 		startActivity(intent);
 	}
 

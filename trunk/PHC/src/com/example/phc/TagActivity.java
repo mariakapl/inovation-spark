@@ -1,5 +1,6 @@
 package com.example.phc;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ public class TagActivity extends FragmentActivity {
 		String bitmapFile = intent.getStringExtra(CaptureActivity.BITMAP_EXTRA);
 		try {
 			_bitmap = BitmapFactory.decodeStream(openFileInput(bitmapFile));
+			new File(bitmapFile).delete();
 		} catch (FileNotFoundException e) {
 		}
 		imageView.setImageBitmap(_bitmap);

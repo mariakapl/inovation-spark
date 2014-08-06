@@ -11,6 +11,8 @@ public interface IDocStorage
 	DocResult addDoc(ScannedDoc doc);
 	// Delete the given document
 	boolean deleteDoc(DocResult doc);
+	// Return the doc with the specified id
+	DocResult getDocById(String id);
 	// Get the list of documents which are tagged with all the given tags
 	// To get all documents, pass an empty collection of tags or null.
 	Collection<DocResult> queryDocsByTags(Collection<String> tags);

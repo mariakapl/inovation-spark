@@ -2,6 +2,7 @@ package com.example.phc;
 
 
 import phc.objects.DocResult;
+import phc.storage.DocStorage;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -16,7 +17,8 @@ public class ScannedDocPresentationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_scanned_doc_presentation);
 
-	    DocResult doc = (DocResult) getIntent().getParcelableExtra(RecordListActivity.DOCRESULT_EXTRA);
+	    String id = getIntent().getStringExtra(RecordListActivity.DOCID_EXTRA);
+	    DocResult doc = DocStorage.get().getDocById(id);
 	    if(doc == null)
 	    	return;
 	    
