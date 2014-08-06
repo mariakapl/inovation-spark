@@ -85,13 +85,10 @@
         <activity android:name=".ScannedDocPresentationActivity" >
         </activity>
         <activity
-            android:name=".GraphActivity"
-            android:label="@string/title_activity_graph" >
+            android:name=".GraphActivity">
         </activity>
         <activity
-            android:name=".BloodTestActivity"
-            android:label="@string/title_activity_blood_test"
-            android:parentActivityName=".TagActivity" >
+            android:name=".BloodTestActivity">
         </activity>
     </application>
 

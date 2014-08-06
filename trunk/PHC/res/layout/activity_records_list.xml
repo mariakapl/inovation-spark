@@ -13,7 +13,6 @@
        android:dividerHeight="1dp"
        android:bottom="1dp"
        android:listSelector="@drawable/list_selector"
-       android:minHeight="?android:attr/listPreferredItemHeightSmall" 
-       />
+       android:minHeight="?android:attr/listPreferredItemHeightSmall" />
 
 </LinearLayout>
