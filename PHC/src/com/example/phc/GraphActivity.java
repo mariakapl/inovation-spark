@@ -1,15 +1,22 @@
 package com.example.phc;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+
+import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphViewStyle;
 import com.jjoe64.graphview.LineGraphView;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 public class GraphActivity extends Activity {
 
@@ -37,41 +44,84 @@ public class GraphActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_graph);
 		 // init example series data
-	    GraphViewSeries exampleSeries = new GraphViewSeries(
-	    		new GraphViewData[] {
-	        new GraphViewData(1, 2.0d)
-	        , new GraphViewData(2, 1.5d)
-	        , new GraphViewData(3, 2.5d)
-	        , new GraphViewData(4, 1.0d)
-	    });
+
 	     
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+	    
+	    final HashMap<Integer,String> dateMap = new  HashMap<Integer,String>();
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.DATE, -1);
+	    dateMap.put(1,dateFormat.format(cal.getTime()));
+	    cal.add(Calendar.DATE, -1);
+	    dateMap.put(2,dateFormat.format(cal.getTime()));
+	    cal.add(Calendar.DATE, -1);
+	    dateMap.put(3,dateFormat.format(cal.getTime()));
+	    cal.add(Calendar.DATE, -1);
+	    dateMap.put(4,dateFormat.format(cal.getTime()));
+	    
 	    GraphView graphView = new LineGraphView(
 	        this // context
-	        , "GraphViewDemo" // heading
+	        , "Hemoglobin Level" // heading
 	    );
+	    
+
+	    GraphViewSeries exampleSeries = new GraphViewSeries(
+	    		new GraphViewData[] {
+	        new GraphViewData(1, 2.0)
+	        , new GraphViewData(2, 1.5)
+	        , new GraphViewData(3, 2.5)
+	        , new GraphViewData(4, 1.0)
+	    });
+	    
+	  
+	    graphView.getGraphViewStyle().setNumHorizontalLabels(4);
+	    graphView.getGraphViewStyle().setNumVerticalLabels(4);
+	    
+	    
+	    
+	   // graphView.setScrollable(true);
+	    // optional - activate scaling / zooming
+	  //  graphView.setScalable(true);
+	    
+	    
+	    graphView.setCustomLabelFormatter(new CustomLabelFormatter() {
+	    	  @Override
+	    	  public String formatLabel(double value, boolean isValueX) {
+	    	    if (isValueX) {
+	    	    	
+	    	    	if(value == 1.0 || value == 2.0 || value == 3.0 || value == 4.0)
+	    	    			{
+				    	    	String date = dateMap.get((int)value);
+				    	    	
+				    	    	if(value == 2.0)
+				    	    	{
+				    	    		date += "\nAspirin Taken";
+				    	    	}
+				    	    	
+				    	    	return date;
+				    	    	//String newDate = date.replace(" ", "\n");
+				    	    //	return newDate;
+	    	    			}
+	    	    	else
+	    	    		return "";
+	    	    }
+	    	    return null; // let graphview generate Y-axis label for us
+	    	  }
+	    	});
+	    
+	    graphView.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 900));
+	   // graphView.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+	    
+	    graphView.setShowHorizontalLabels(true);
+	    graphView.getGraphViewStyle().setVerticalLabelsWidth(50);
+	    ((LineGraphView) graphView).setDrawDataPoints(true);
+	    
 	    graphView.addSeries(exampleSeries); // data
-	     
+	    //graphView.setViewPort(1, 2);
+	   
 	    LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
 	    layout.addView(graphView);
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.graph, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 }

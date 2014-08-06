@@ -22,14 +22,11 @@
     <string name="description_HealthPortal">Health Portal</string>
     <string name="description_appointment">Set Appointment</string>
     <string name="title_scanDoc">Scan Doc</string>
-    <string name="title_onlineRecords">Online Records</string>
+    <string name="title_onlineRecords">Import Records</string>
     <string name="title_records">Records</string>
-    <string name="title_share">Shared Docs</string>
+    <string name="title_share">Workflows</string>
     <string name="title_healthPortal">Health Portal</string>
     <string name="title_appointment">Set Appointment</string>
     <string name="title_activity_tag">Tag Your Document</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_graph">GraphActivity</string>
-    <string name="title_activity_blood_test">BloodTestActivity</string>
-
 </resources>
