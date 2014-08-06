@@ -17,31 +17,31 @@ public class DocumentProcessor {
 		return _sInstance;
 	}
 	
-	private HashMap<String, SimpleTermDocProcessor> _processorByTag;
+	private HashMap<String, IDocProcessor> _processorByTag;
 	
 	private DocumentProcessor()
 	{
-		_processorByTag = new HashMap<String, SimpleTermDocProcessor>();
+		_processorByTag = new HashMap<String, IDocProcessor>();
 		_processorByTag.put(TagExtractor.BLOOD_TESTS_TAG, new BloodTestProcessor());
 		_processorByTag.put(TagExtractor.PRESCRIPTIONS_TAG, new MedicineProcessor());
 	}
 	
 	public void clear(Context context)
 	{
-		for (SimpleTermDocProcessor p : _processorByTag.values())
+		for (IDocProcessor p : _processorByTag.values())
 			p.clear(context);
 	}
 	
 	public void process(Context context, DocResult doc)
 	{
-		List<SimpleTermDocProcessor> processors = getDocProcessors(doc);
-		for (SimpleTermDocProcessor p : processors)
+		List<IDocProcessor> processors = getDocProcessors(doc);
+		for (IDocProcessor p : processors)
 			p.process(context, doc);
 	}
 	
-	private List<SimpleTermDocProcessor> getDocProcessors(DocResult doc)
+	private List<IDocProcessor> getDocProcessors(DocResult doc)
 	{
-		List<SimpleTermDocProcessor> processors = new ArrayList<SimpleTermDocProcessor>();
+		List<IDocProcessor> processors = new ArrayList<IDocProcessor>();
 		for (String tag : doc.scannedDoc().tags())
 		{
 			if (_processorByTag.containsKey(tag))
