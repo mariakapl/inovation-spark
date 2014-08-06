@@ -328,4 +328,9 @@ public class DocStorage implements IDocStorage {
 		Utils.writeTextFile(_tagTreeFile, sb.toString());
 		return true;
 	}
+	
+	@Override
+	public DocResult getDocById(String id) {
+		return load(id);
+	}
 }
