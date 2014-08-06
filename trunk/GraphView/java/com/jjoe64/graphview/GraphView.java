@@ -53,7 +53,7 @@ import com.jjoe64.graphview.compatible.ScaleGestureDetector;
  */
 abstract public class GraphView extends LinearLayout {
 	static final private class GraphViewConfig {
-		static final float BORDER = 20;
+		static final float BORDER = 60;
 	}
 
 	private class GraphViewContentView extends View {
@@ -124,10 +124,15 @@ abstract public class GraphView extends LinearLayout {
 
 			drawHorizontalLabels(canvas, border, horstart, height, horlabels, graphwidth);
 
-            paint.setColor(graphViewStyle.getHorizontalLabelsColor());
+            paint.setColor(0xff0077cc/*graphViewStyle.getHorizontalLabelsColor()*/);
 			paint.setTextAlign(Align.CENTER);
-			canvas.drawText(title, (graphwidth / 2) + horstart, border - 4, paint);
+			
+			float size = paint.getTextSize();
+			paint.setTextSize(50);
+			
+			canvas.drawText(title, (graphwidth / 2) + horstart, border - 20, paint);
 
+			paint.setTextSize(size);
 			if (maxY == minY) {
 				// if min/max is the same, fake it so that we can render a line
 				if(maxY == 0) {
@@ -435,11 +440,20 @@ abstract public class GraphView extends LinearLayout {
                 
               //  canvas.drawText(horlabels[i], x, height - 4, paint);
                 
-                float y = height - 4;
-                for(String line: horlabels[i].split(" ")){
+                float y = height - border + 30;
+                boolean first = true;
+                for(String line: horlabels[i].split("\n")){
+                	if(!first)
+                	{
+                		paint.setColor(Color.RED);
+                	}
                     canvas.drawText(line, x, y, paint);
-                    y+= paint.ascent()+paint.descent();
+                    //y+= (paint.ascent()+paint.descent() + 25);
+                    y+= 25;
+                    first = false;
+                    
                 }
+                paint.setColor(Color.BLACK);
               }
             }
 		}
