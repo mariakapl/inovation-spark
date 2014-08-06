@@ -17,7 +17,9 @@
 
 package edu.sfsu.cs.orange.ocr;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.app.Activity;
@@ -739,11 +741,28 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     Intent tagDoc = new Intent(this, TagActivity.class);
     tagDoc.putExtra(OCR_RESULT_TEXT_EXTRA, ocrResult.getText());
     //tagDoc.putExtra(BITMAP_EXTRA, lastBitmap);
-    tagDoc.putExtra(BITMAP_EXTRA, originalBitmap);
+    //tagDoc.putExtra(BITMAP_EXTRA, originalBitmap);
+    String bitmapFile = createImageFromBitmap(originalBitmap);
+    tagDoc.putExtra(BITMAP_EXTRA, bitmapFile);
     startActivity(tagDoc);
     return true;
   }
   
+  public String createImageFromBitmap(Bitmap bitmap) {
+	    String fileName = "myImage";//no .png or .jpg needed
+	    try {
+	        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+	        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+	        FileOutputStream fo = openFileOutput(fileName, Context.MODE_PRIVATE);
+	        fo.write(bytes.toByteArray());
+	        // remember close file output
+	        fo.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        fileName = null;
+	    }
+	    return fileName;
+	}
   /**
    * Displays information relating to the results of a successful real-time OCR request.
    * 

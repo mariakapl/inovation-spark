@@ -1,5 +1,6 @@
 package com.example.phc;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import phc.objects.ScannedDoc;
 import phc.storage.DocStorage;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
@@ -41,8 +43,11 @@ public class TagActivity extends FragmentActivity {
 		setContentView(R.layout.activity_tag);
 		Intent intent = getIntent();
 		ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-		Parcelable p = intent.getParcelableExtra(CaptureActivity.BITMAP_EXTRA);
-		_bitmap = (Bitmap) p;
+		String bitmapFile = intent.getStringExtra(CaptureActivity.BITMAP_EXTRA);
+		try {
+			_bitmap = BitmapFactory.decodeStream(openFileInput(bitmapFile));
+		} catch (FileNotFoundException e) {
+		}
 		imageView.setImageBitmap(_bitmap);
 		
 	    listDataHeader = new ArrayList<String>();
