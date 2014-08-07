@@ -13,7 +13,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import phc.interfaces.IDocStorage;
+import phc.objects.BloodTest;
 import phc.objects.DocResult;
+import phc.objects.Medicine;
 import phc.objects.ScannedDoc;
 import phc.processing.DocumentProcessor;
 import phc.utils.Utils;
@@ -332,5 +334,15 @@ public class DocStorage implements IDocStorage {
 	@Override
 	public DocResult getDocById(String id) {
 		return load(id);
+	}
+	@Override
+	public List<BloodTest> getBloodTestHistory(BloodTest test) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<Medicine> getBloodTestAssociatedHistory(BloodTest test) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

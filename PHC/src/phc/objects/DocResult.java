@@ -1,5 +1,7 @@
 package phc.objects;
 
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,6 +11,7 @@ public class DocResult implements Parcelable {
 	private String _id;
 	private String _date;
 	private boolean _shared; //indicate if the document is shared
+	private List<BloodTest> _bloodTests;
 	
 	public DocResult(ScannedDoc doc, String id, String date)
 	{
@@ -31,6 +34,9 @@ public class DocResult implements Parcelable {
         out.writeString(_id);
         out.writeString(_date);
     	out.writeInt(_shared ? 1 : 0);
+    }
+    public List<BloodTest> bloodTests() {
+    	return _bloodTests;
     }
     public static final Parcelable.Creator<DocResult> CREATOR
             = new Parcelable.Creator<DocResult>() {

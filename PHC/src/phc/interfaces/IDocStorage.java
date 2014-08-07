@@ -1,8 +1,11 @@
 package phc.interfaces;
 
 import java.util.Collection;
+import java.util.List;
 
+import phc.objects.BloodTest;
 import phc.objects.DocResult;
+import phc.objects.Medicine;
 import phc.objects.ScannedDoc;
 
 public interface IDocStorage
@@ -25,4 +28,8 @@ public interface IDocStorage
 	boolean createTag(String name, String parent);
 	// Remove all existing documents - only for debugging
 	void clear();
+	// Get history for a blood test, sorted by date
+	List<BloodTest> getBloodTestHistory(BloodTest test);
+	// Get medicine history associated with a blood test, sorted by date
+	List<Medicine> getBloodTestAssociatedHistory(BloodTest test);
 }
