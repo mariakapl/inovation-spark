@@ -1,17 +1,14 @@
 package com.example.phc;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import phc.objects.BloodTest;
 import phc.objects.Medicine;
 import phc.storage.DocStorage;
 import phc.utils.Utils;
-
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -57,21 +54,7 @@ public class GraphActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_graph);
-		 // init example series data
-	     
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-	    
-	    final HashMap<Integer,String> dateMap = new  HashMap<Integer,String>();
-	    Calendar cal = Calendar.getInstance();
-	    cal.add(Calendar.DATE, -1);
-	    dateMap.put(1,dateFormat.format(cal.getTime()));
-	    cal.add(Calendar.DATE, -1);
-	    dateMap.put(2,dateFormat.format(cal.getTime()));
-	    cal.add(Calendar.DATE, -1);
-	    dateMap.put(3,dateFormat.format(cal.getTime()));
-	    cal.add(Calendar.DATE, -1);
-	    dateMap.put(4,dateFormat.format(cal.getTime()));
-	    
+	     	    
 	    String testName = getIntent().getStringExtra(BloodTestActivity.BLOOD_TEST_EXTRA);
 		List<BloodTest> tests = DocStorage.get().getBloodTestHistory(this, testName);
 		List<Medicine> meds = DocStorage.get().getBloodTestAssociatedHistory(this, testName);
@@ -86,7 +69,7 @@ public class GraphActivity extends Activity {
 	    	if (maxDate == null || d.compareTo(maxDate) > 0)
 	    		maxDate = d;
 	    }
-	    long days = getDayDiff(minDate, maxDate);
+	    final long totalDays = getDayDiff(minDate, maxDate);
 	    
 		List<GraphViewData> bloodTestData = new ArrayList<GraphViewData>();
 		double min = 100000;
@@ -94,7 +77,7 @@ public class GraphActivity extends Activity {
 		{
 			double value = Double.parseDouble(t.Value);
 			Date d = Utils.getDateFromString(t.Date);
-			double xvalue = ((double)(getDayDiff(minDate, d)) / days);
+			double xvalue = ((double)(getDayDiff(minDate, d)) / totalDays);
 			bloodTestData.add(new GraphViewData(xvalue, value));
 			if (value < min)
 				min = value;
@@ -109,8 +92,8 @@ public class GraphActivity extends Activity {
 	    for (Medicine m : meds)
 	    {
 			Date d = Utils.getDateFromString(m.StartDate);
-			double xvalue = ((double)(getDayDiff(minDate, d)) / days);
-			double diff = (double)m.NumDays / days;
+			double xvalue = ((double)(getDayDiff(minDate, d)) / totalDays);
+			double diff = (double)m.NumDays / totalDays;
 	    	medicineData.add(new GraphViewData(xvalue, min));
 	    	medicineData.add(new GraphViewData(xvalue + diff, min));
 	    	medicineName = m.Name;
@@ -118,42 +101,32 @@ public class GraphActivity extends Activity {
 		GraphViewData [] medicineDataArray = new GraphViewData[medicineData.size()];
 		medicineData.toArray(medicineDataArray);
 	    GraphViewSeries medicineSeries = new GraphViewSeries(
-	    	"Medicine", new GraphViewSeriesStyle(Color.RED, 5), medicineDataArray);
+	    	medicineName, new GraphViewSeriesStyle(Color.RED, 5), medicineDataArray);
 	    graphView.setShowLegend(true);
+	    graphView.getGraphViewStyle().setLegendWidth(200);
 	    graphView.getGraphViewStyle().setNumHorizontalLabels(4);
 	    graphView.getGraphViewStyle().setNumVerticalLabels(4);
 	    
 	    graphView.setScrollable(true);
 	    // optional - activate scaling / zooming
 	    graphView.setScalable(true);
+	    graphView.getGraphViewStyle().setTextSize(20);
 	    
+    	final Date minDate1 = minDate;
 	    graphView.setCustomLabelFormatter(new CustomLabelFormatter() {
 	    	  @Override
 	    	  public String formatLabel(double value, boolean isValueX) {
-	    	    if (isValueX) {
-	    	    	
-	    	    	if(value == 1.0 || value == 2.0 || value == 3.0 || value == 4.0)
-	    	    			{
-				    	    	String date = dateMap.get((int)value);
-				    	    	
-				    	    	if(value == 2.0)
-				    	    	{
-				    	    		date += "\nAspirin Taken";
-				    	    	}
-				    	    	
-				    	    	return date;
-				    	    	//String newDate = date.replace(" ", "\n");
-				    	    //	return newDate;
-	    	    			}
-	    	    	else
-	    	    		return "";
-	    	    }
-	    	    return null; // let graphview generate Y-axis label for us
+	    		  if (!isValueX)
+	    			  return null;
+	    		  int days = (int)(value * totalDays);
+	    		  Calendar c = Calendar.getInstance();
+	    		  c.setTime(minDate1);
+	    		  c.add(Calendar.DATE, days);
+	    		  return Utils.getDateStringShort(c.getTime());
 	    	  }
 	    	});
 	    
 	    graphView.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-	   // graphView.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 	    
 	    graphView.setShowHorizontalLabels(true);
 	    graphView.getGraphViewStyle().setVerticalLabelsWidth(50);
@@ -161,7 +134,6 @@ public class GraphActivity extends Activity {
 	    
 	    graphView.addSeries(bloodTestSeries); // data
 	    graphView.addSeries(medicineSeries); // data
-	    //graphView.setViewPort(1, 2);
 	   
 	    LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
 	    layout.addView(graphView);
