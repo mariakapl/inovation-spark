@@ -4,6 +4,7 @@ import java.util.List;
 
 import phc.objects.BloodTest;
 import phc.objects.DocResult;
+import phc.objects.Medicine;
 import phc.storage.DocStorage;
 import android.app.Activity;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class BloodTestActivity extends Activity {
 	    if(doc == null)
 	    	return;
 	    
-	    List<BloodTest> bloodResultList = doc.bloodTests();
+	    final List<BloodTest> bloodResultList = doc.bloodTests();
 	    
 	    String[] array = new String[bloodResultList.size()];
 	    
@@ -53,7 +54,15 @@ public class BloodTestActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				BloodTest test = bloodResultList.get(position);
+				List<BloodTest> tests = DocStorage.get().getBloodTestHistory(
+					BloodTestActivity.this, test);
+				for (BloodTest t : tests)
+					System.err.println(test.Name + "," + test.Value + "," + test.Units);
+				List<Medicine> meds = DocStorage.get().getBloodTestAssociatedHistory(
+					BloodTestActivity.this, test);
+				for (Medicine m : meds)
+					System.err.println(m.Name + "," + m.StartDate + "," + m.NumDays);
 			}
         });
 	    

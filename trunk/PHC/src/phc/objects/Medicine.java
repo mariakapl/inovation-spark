@@ -1,13 +1,13 @@
 package phc.objects;
 
-public class Medicine {
-	public Medicine(String name, String startDate, String endDate, String amount, String units)
+public class Medicine extends MedicalObject {
+	public Medicine(String name, String docId, String startDate, int numDays, String amount)
 	{
-		Name = name;
+		super(name, docId);
 		StartDate = startDate;
-		EndDate = endDate;
+		NumDays = numDays;
 		Amount = amount;
-		Units = units;
 	}
-	public String Name, StartDate, EndDate, Amount, Units;
+	public String StartDate, Amount;
+	public int NumDays;
 }
