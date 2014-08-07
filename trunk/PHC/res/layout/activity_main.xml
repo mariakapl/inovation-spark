@@ -49,7 +49,6 @@
         
         <Button android:id="@+id/home_btn_feature4"
             style="@style/HomeButton"
-            android:onClick="onClickShare"
             android:text="@string/title_share"
             android:drawableTop="@drawable/home_button4"/>
     </LinearLayout>
