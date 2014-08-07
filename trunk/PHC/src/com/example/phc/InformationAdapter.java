@@ -39,6 +39,11 @@ public class InformationAdapter extends BaseAdapter {
  		ImageButton button = 
  				(ImageButton)vi.findViewById( R.id.imageButton1);
  	    button.setOnClickListener(imgButtonInfoHandler);
+ 	    
+ 		ImageButton graphButton = 
+ 				(ImageButton)vi.findViewById( R.id.imageButton2);
+ 		
+ 		graphButton.setOnClickListener(imgButtonGraphHandler);
         // Setting all values in listview
         title.setText(arr[position]);
 
@@ -59,6 +64,19 @@ public class InformationAdapter extends BaseAdapter {
         }
     };
 
+    View.OnClickListener imgButtonGraphHandler = new View.OnClickListener() {
+
+        public void onClick(View v) {
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//            builder.setTitle("Infrmation");
+//            builder.setMessage("Aspirin is good!!");
+//            
+//            AlertDialog alert = builder.create();
+//            alert.show();
+
+        }
+    };
 
 	@Override
 	public int getCount() {
