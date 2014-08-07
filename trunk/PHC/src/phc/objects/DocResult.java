@@ -1,5 +1,6 @@
 package phc.objects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Parcel;
@@ -17,8 +18,8 @@ public class DocResult implements Parcelable {
 	{
 		_scannedDoc = doc;
 		_id = id;
-		
 		_date = date;
+		_bloodTests = new ArrayList<BloodTest>();
 	}
 	public ScannedDoc scannedDoc() {
 		return _scannedDoc;
@@ -29,6 +30,12 @@ public class DocResult implements Parcelable {
 	public String date() {
 		return _date.toString();
 	}
+	
+	public void addBloodTest(BloodTest test)
+	{
+		_bloodTests.add(test);
+	}
+	
     public void writeToParcel(Parcel out, int flags) {
         out.writeParcelable(_scannedDoc, 0);
         out.writeString(_id);
