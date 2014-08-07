@@ -1,7 +1,11 @@
 package com.example.phc;
 
 import phc.storage.DocStorage;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -31,15 +35,35 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_settings) {
+//        	DocStorage.get().clear();
+//            return true;
+//        }
+        
+        switch (item.getItemId()) {
+        case R.id.action_settings:
         	DocStorage.get().clear();
             return true;
+        case R.id.action_info:
+            OpenInfo();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
     
-    public void scanDocument(View view)
+    
+    private void OpenInfo() {
+		// TODO Auto-generated method stub
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create(); //Read Update
+        alertDialog.setTitle("Clinical Summary");
+        alertDialog.setMessage("Name: Haim Levi \nAge: 46\nMedication:\n   Aspirin\n   Medicine1\n   Medication2");
+        alertDialog.show();  //<-- See This!
+	}
+
+
+	public void scanDocument(View view)
     {
     	Intent intent = new Intent(this, CaptureActivity.class); //in order test without photo
     	//Intent intent = new Intent(this, TagActivity.class);
