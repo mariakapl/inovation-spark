@@ -1,6 +1,12 @@
 package phc.processing;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,18 +14,27 @@ import java.util.regex.Pattern;
 
 import phc.objects.BloodTest;
 import phc.objects.DocResult;
+import phc.objects.Medicine;
+import phc.storage.DocStorage;
 import phc.utils.Utils;
 import android.content.Context;
 
 public class BloodTestProcessor implements IDocProcessor {
 
 	private static final String TXT_EXTENSION = ".txt";
-
+	private static final String HEMOGLOBIN = "Hemoglobin";
+	
 	private static final String [] _tests = {
-		"Hemoglobin", "Glucose", "Platelets"
+		HEMOGLOBIN, "Glucose", "Platelets"
 	};
 	private HashMap<String, Pattern> _patterns;
 
+	private static final String [][] _associatedMedicine = {
+		{HEMOGLOBIN, MedicineProcessor.ASPIRIN}
+	};
+	
+	private static HashMap<String, List<String>> _associatedMedicineHash;
+	
 	public BloodTestProcessor() {
 		_patterns = new HashMap<String, Pattern>();
 		for (String test : _tests) {
@@ -27,9 +42,14 @@ public class BloodTestProcessor implements IDocProcessor {
 				"\\b(" + test.toLowerCase() + ")\\s+((\\d|\\.)+)\\s+(.*)");
 			_patterns.put(test, p);
 		}
+		_associatedMedicineHash = new HashMap<String, List<String>>();
+		for (String [] assoc : _associatedMedicine) {
+			List<String> list = Arrays.asList(assoc).subList(1, assoc.length);
+			_associatedMedicineHash.put(assoc[0], list);
+		}
 	}
 
-	private File getDir(Context context)
+	private static File getDir(Context context)
 	{
 		File dir = context.getDir("BloodTest", Context.MODE_PRIVATE);;
 		if (! dir.exists())
@@ -37,19 +57,30 @@ public class BloodTestProcessor implements IDocProcessor {
 		return dir;
 	}
 
-	public HashMap<String, String> readData(Context context, String test)
+	public static List<BloodTest> readData(Context context, String test)
 	{
 		File dir = getDir(context);
 		File file = new File(dir, test + TXT_EXTENSION);
-		String s = "";
 		if (! file.exists())
 			return null;
 		List<String> lines = Utils.readTextFile(file);
-		HashMap<String, String> values = new HashMap<String, String>();
+		List<BloodTest> values = new ArrayList<BloodTest>();
 		for (String line : lines) {
 			String [] parts = line.split("\\t");
-			values.put(parts[0], parts[1]);
+			BloodTest bt = new BloodTest(test, parts[0], parts[1], parts[2], parts[3]);
+			values.add(bt);
 		}
+		final SimpleDateFormat df = new SimpleDateFormat(DocStorage.DateFormat);
+		Collections.sort(values, new Comparator<BloodTest>() {
+			@Override
+			public int compare(BloodTest bt1, BloodTest bt2) {
+				try {
+					return df.parse(bt1.Date).compareTo(df.parse(bt2.Date));
+				} catch (ParseException e) {
+					return 0;
+				}
+			}
+		});
 		return values;
 	}
 	
@@ -60,7 +91,7 @@ public class BloodTestProcessor implements IDocProcessor {
 		String s = "";
 		if (file.exists())
 			s = Utils.readTextFileAsString(file);
-		s = s + test.Value + "\t" + test.Units + "\t" + test.Date + "\n";
+		s = s + test.DocId + "\t" + test.Value + "\t" + test.Units + "\t" + test.Date + "\n";
 		Utils.writeTextFile(file, s);
 	}
 	
@@ -72,16 +103,15 @@ public class BloodTestProcessor implements IDocProcessor {
 			Pattern p = _patterns.get(test);
 			Matcher m = p.matcher(ocr);
 			if (m.find()) {
-				BloodTest bt = new BloodTest(test, m.group(2), m.group(4), doc.date());
+				BloodTest bt = new BloodTest(test, doc.id(), m.group(2), m.group(4), doc.date());
 				matches.put(test, bt);
 			}
 		}
 		if (matches.size() > 0)
 		{
-			for (String m : matches.keySet()) {
-				BloodTest test = matches.get(m);
-				writeData(context, test);
-				doc.addBloodTest(test);
+			for (BloodTest t : matches.values()) {
+				writeData(context, t);
+				doc.addBloodTest(t);
 			}
 		}
 		return true;
@@ -92,5 +122,29 @@ public class BloodTestProcessor implements IDocProcessor {
 		File dir = getDir(context);
 		for (String test : _tests)
 			new File(dir, test + TXT_EXTENSION).delete();
+	}
+
+	public static List<Medicine> readAssociatedMedicineData(Context context,
+			String name) {
+		List<String> list = _associatedMedicineHash.get(name);
+		List<Medicine> meds = new ArrayList<Medicine>();
+		for (String med : list) {
+			List<Medicine> medList = MedicineProcessor.getMedicineHistory(context, med);
+			if (medList == null)
+				continue;
+			meds.addAll(medList);
+		}
+		final SimpleDateFormat df = new SimpleDateFormat(DocStorage.DateFormat);
+		Collections.sort(meds, new Comparator<Medicine>() {
+			@Override
+			public int compare(Medicine m1, Medicine m2) {
+				try {
+					return df.parse(m1.StartDate).compareTo(df.parse(m2.StartDate));
+				} catch (ParseException e) {
+					return 0;
+				}
+			}
+		});
+		return meds;
 	}
 }

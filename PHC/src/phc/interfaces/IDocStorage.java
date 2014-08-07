@@ -3,6 +3,8 @@ package phc.interfaces;
 import java.util.Collection;
 import java.util.List;
 
+import android.content.Context;
+
 import phc.objects.BloodTest;
 import phc.objects.DocResult;
 import phc.objects.Medicine;
@@ -29,7 +31,7 @@ public interface IDocStorage
 	// Remove all existing documents - only for debugging
 	void clear();
 	// Get history for a blood test, sorted by date
-	List<BloodTest> getBloodTestHistory(BloodTest test);
+	List<BloodTest> getBloodTestHistory(Context context, BloodTest test);
 	// Get medicine history associated with a blood test, sorted by date
-	List<Medicine> getBloodTestAssociatedHistory(BloodTest test);
+	List<Medicine> getBloodTestAssociatedHistory(Context context, BloodTest test);
 }

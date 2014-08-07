@@ -17,6 +17,7 @@ import phc.objects.BloodTest;
 import phc.objects.DocResult;
 import phc.objects.Medicine;
 import phc.objects.ScannedDoc;
+import phc.processing.BloodTestProcessor;
 import phc.processing.DocumentProcessor;
 import phc.utils.Utils;
 import android.content.Context;
@@ -27,6 +28,7 @@ import com.example.phc.TagExtractor;
 
 public class DocStorage implements IDocStorage {
 
+	public static final String DateFormat = "MM/dd/yyyy HH:mm:ss";
 	private static final String TAG_TREE_FILE = "tagTree.txt";
 	private static final String TXT_EXTENSION = ".txt";
 	private static final String BITMAP_EXTENSION = ".png";
@@ -175,7 +177,7 @@ public class DocStorage implements IDocStorage {
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
 			List<String> tags = Utils.readTextFile(tagFile);
 			
-			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			SimpleDateFormat df = new SimpleDateFormat(DateFormat);
 			Date date = new Date(image.lastModified());     
 			String reportDate = df.format(date);
 			
@@ -336,13 +338,13 @@ public class DocStorage implements IDocStorage {
 		return load(id);
 	}
 	@Override
-	public List<BloodTest> getBloodTestHistory(BloodTest test) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BloodTest> getBloodTestHistory(Context context, BloodTest test) {
+		List<BloodTest> tests = BloodTestProcessor.readData(context, test.Name);
+		return tests;
 	}
 	@Override
-	public List<Medicine> getBloodTestAssociatedHistory(BloodTest test) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Medicine> getBloodTestAssociatedHistory(Context context, BloodTest test) {
+		List<Medicine> meds = BloodTestProcessor.readAssociatedMedicineData(context, test.Name);
+		return meds;
 	}
 }
