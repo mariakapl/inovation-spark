@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class InformationAdapter extends BaseAdapter {
-    private Activity activity;
+    private BloodTestActivity activity;
     private static LayoutInflater inflater=null;
     private String[] arr;
     
     
-    public InformationAdapter(Activity a, String[] array) {
+    public InformationAdapter(BloodTestActivity a, String[] array) {
         activity = a;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         arr = array;
@@ -43,7 +43,8 @@ public class InformationAdapter extends BaseAdapter {
  		ImageButton graphButton = 
  				(ImageButton)vi.findViewById( R.id.imageButton2);
  		
- 		graphButton.setOnClickListener(imgButtonGraphHandler);
+ 		GraphClickHandler gh = new GraphClickHandler(position);
+ 		graphButton.setOnClickListener(gh);
         // Setting all values in listview
         title.setText(arr[position]);
 
@@ -64,20 +65,25 @@ public class InformationAdapter extends BaseAdapter {
         }
     };
 
-    View.OnClickListener imgButtonGraphHandler = new View.OnClickListener() {
-
+    private class GraphClickHandler implements View.OnClickListener {
+    	private int _position;
+    	public GraphClickHandler(int position) {
+    		_position = position;
+    	}
         public void onClick(View v) {
+        	activity.graphClicked(_position);
+        	
+//          AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//          builder.setTitle("Infrmation");
+//          builder.setMessage("Aspirin is good!!");
+//          
+//          AlertDialog alert = builder.create();
+//          alert.show();
 
-//            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//            builder.setTitle("Infrmation");
-//            builder.setMessage("Aspirin is good!!");
-//            
-//            AlertDialog alert = builder.create();
-//            alert.show();
-
-        }
-    };
-
+      }
+    	
+    }
+    
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
