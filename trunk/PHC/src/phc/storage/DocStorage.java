@@ -181,8 +181,10 @@ public class DocStorage implements IDocStorage {
 			Date date = new Date(image.lastModified());     
 			String reportDate = df.format(date);
 			
-			_docsById.put(id, new DocResult(
-				new ScannedDoc(name, bitmap, tags, ocr), id, reportDate));
+			DocResult res = new DocResult(
+				new ScannedDoc(name, bitmap, tags, ocr), id, reportDate);
+			DocumentProcessor.instance().readDataForDoc(_context, res);
+			_docsById.put(id, res);
 		}
 		return _docsById.get(id);
 	}

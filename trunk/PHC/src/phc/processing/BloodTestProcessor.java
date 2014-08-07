@@ -57,6 +57,22 @@ public class BloodTestProcessor implements IDocProcessor {
 		return dir;
 	}
 
+	@Override
+	public void readDataForDoc(Context context, DocResult doc)
+	{
+		for (String test : _tests)
+		{
+			List<BloodTest> all = readData(context, test);
+			if (all == null)
+				continue;
+			for (BloodTest t : all)
+			{
+				if (t.DocId.equals(doc.id()))
+					doc.addBloodTest(t);
+			}
+		}
+	}
+	
 	public static List<BloodTest> readData(Context context, String test)
 	{
 		File dir = getDir(context);

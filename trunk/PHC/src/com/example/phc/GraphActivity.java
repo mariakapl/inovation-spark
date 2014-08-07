@@ -4,9 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
@@ -15,7 +13,6 @@ import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
-import com.jjoe64.graphview.GraphViewStyle;
 import com.jjoe64.graphview.LineGraphView;
 
 public class GraphActivity extends Activity {
@@ -68,6 +65,8 @@ public class GraphActivity extends Activity {
 	    GraphViewSeries exampleSeries = new GraphViewSeries(
 	    		new GraphViewData[] {
 	        new GraphViewData(1, 2.0)
+	        , new GraphViewData(1.2, 2.2)
+	        , new GraphViewData(1.3, 2.4)
 	        , new GraphViewData(2, 1.5)
 	        , new GraphViewData(3, 2.5)
 	        , new GraphViewData(4, 1.0)
@@ -109,7 +108,7 @@ public class GraphActivity extends Activity {
 	    	  }
 	    	});
 	    
-	    graphView.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 900));
+	    graphView.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 	   // graphView.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 	    
 	    graphView.setShowHorizontalLabels(true);
