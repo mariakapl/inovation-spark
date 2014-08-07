@@ -340,13 +340,13 @@ public class DocStorage implements IDocStorage {
 		return load(id);
 	}
 	@Override
-	public List<BloodTest> getBloodTestHistory(Context context, BloodTest test) {
-		List<BloodTest> tests = BloodTestProcessor.readData(context, test.Name);
+	public List<BloodTest> getBloodTestHistory(Context context, String name) {
+		List<BloodTest> tests = BloodTestProcessor.readData(context, name);
 		return tests;
 	}
 	@Override
-	public List<Medicine> getBloodTestAssociatedHistory(Context context, BloodTest test) {
-		List<Medicine> meds = BloodTestProcessor.readAssociatedMedicineData(context, test.Name);
+	public List<Medicine> getBloodTestAssociatedHistory(Context context, String testName) {
+		List<Medicine> meds = BloodTestProcessor.readAssociatedMedicineData(context, testName);
 		return meds;
 	}
 }

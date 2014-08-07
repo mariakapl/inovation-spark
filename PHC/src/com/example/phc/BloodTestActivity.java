@@ -8,6 +8,7 @@ import phc.objects.DocResult;
 import phc.objects.Medicine;
 import phc.storage.DocStorage;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class BloodTestActivity extends Activity {
 
 	public static final String DOCID_EXTRA = "doc_id";
+	private static final String BLOOD_TEST_EXTRA = "blood_test_extra";
 	InformationAdapter adapter;
 	ListView listView1;
 	List<BloodTest> bloodResultList = null;
@@ -71,11 +73,11 @@ public class BloodTestActivity extends Activity {
 					int position, long id) {
 				BloodTest test = bloodResultList.get(position);
 				List<BloodTest> tests = DocStorage.get().getBloodTestHistory(
-					BloodTestActivity.this, test);
+					BloodTestActivity.this, test.Name);
 				for (BloodTest t : tests)
 					System.err.println(t.Name + "," + t.Value + "," + t.Units);
 				List<Medicine> meds = DocStorage.get().getBloodTestAssociatedHistory(
-					BloodTestActivity.this, test);
+					BloodTestActivity.this, test.Name);
 				for (Medicine m : meds)
 					System.err.println(m.Name + "," + m.StartDate + "," + m.NumDays);
 			}
@@ -103,5 +105,12 @@ public class BloodTestActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void graphClicked(int position) {
+		Intent intent = new Intent(this, GraphActivity.class);
+		BloodTest test = bloodResultList.get(position);
+		intent.putExtra(BLOOD_TEST_EXTRA, test.Name);
+		startActivity(intent);
 	}
 }

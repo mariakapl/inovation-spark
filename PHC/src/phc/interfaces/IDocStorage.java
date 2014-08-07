@@ -31,7 +31,7 @@ public interface IDocStorage
 	// Remove all existing documents - only for debugging
 	void clear();
 	// Get history for a blood test, sorted by date
-	List<BloodTest> getBloodTestHistory(Context context, BloodTest test);
+	List<BloodTest> getBloodTestHistory(Context context, String name);
 	// Get medicine history associated with a blood test, sorted by date
-	List<Medicine> getBloodTestAssociatedHistory(Context context, BloodTest test);
+	List<Medicine> getBloodTestAssociatedHistory(Context context, String testName);
 }
