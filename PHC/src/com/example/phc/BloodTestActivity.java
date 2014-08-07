@@ -1,6 +1,7 @@
 package com.example.phc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import phc.objects.BloodTest;
@@ -24,6 +25,16 @@ public class BloodTestActivity extends Activity {
 	InformationAdapter adapter;
 	ListView listView1;
 	List<BloodTest> bloodResultList = null;
+	
+	public static HashMap<String,String> descriptions = new HashMap<String, String>();
+	
+	static //static constructor 
+	{
+		descriptions.put("Hemoglobin",  "Iron-containing oxygen-transport metalloprotein in the red blood cells");
+		descriptions.put("Glucose",     "The amount of glucose present in the blood");
+		descriptions.put("Platelets",   "Blood cells whose function (along with the coagulation factors) is to stop bleeding");
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,4 +124,33 @@ public class BloodTestActivity extends Activity {
 		intent.putExtra(BLOOD_TEST_EXTRA, test.Name);
 		startActivity(intent);
 	}
+
+
+
+
+	public String getTestDescription(int position) {
+		// TODO Auto-generated method stub
+		BloodTest test = bloodResultList.get(position);
+		if(descriptions.containsKey(test.Name))
+		{
+			return descriptions.get(test.Name);
+		}
+		
+		return null;
+		
+	}
+
+	public String getTestTitle(int position) {
+		// TODO Auto-generated method stub
+		BloodTest test = bloodResultList.get(position);
+		if(descriptions.containsKey(test.Name))
+		{
+			return test.Name;
+		}
+		
+		return null;
+	}
+
+
+
 }

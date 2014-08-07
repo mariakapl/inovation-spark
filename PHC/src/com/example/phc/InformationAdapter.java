@@ -38,32 +38,38 @@ public class InformationAdapter extends BaseAdapter {
 
  		ImageButton button = 
  				(ImageButton)vi.findViewById( R.id.imageButton1);
- 	    button.setOnClickListener(imgButtonInfoHandler);
+ 		
+ 		InfoClickHandler info_h = new InfoClickHandler(position);
+ 		button.setOnClickListener(info_h);
+ 		
+ 	   // button.setOnClickListener(imgButtonInfoHandler);
  	    
  		ImageButton graphButton = 
  				(ImageButton)vi.findViewById( R.id.imageButton2);
  		
  		GraphClickHandler gh = new GraphClickHandler(position);
  		graphButton.setOnClickListener(gh);
+ 		
+
         // Setting all values in listview
         title.setText(arr[position]);
 
         return vi;
     }
     
-    View.OnClickListener imgButtonInfoHandler = new View.OnClickListener() {
-
-        public void onClick(View v) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle("Infrmation");
-            builder.setMessage("Aspirin is good!!");
-            
-            AlertDialog alert = builder.create();
-            alert.show();
-
-        }
-    };
+//    View.OnClickListener imgButtonInfoHandler = new View.OnClickListener() {
+//
+//        public void onClick(View v) {
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//            builder.setTitle("Infrmation");
+//            builder.setMessage("Aspirin is good!!");
+//            
+//            AlertDialog alert = builder.create();
+//            alert.show();
+//
+//        }
+//    };
 
     private class GraphClickHandler implements View.OnClickListener {
     	private int _position;
@@ -71,15 +77,34 @@ public class InformationAdapter extends BaseAdapter {
     		_position = position;
     	}
         public void onClick(View v) {
-        	activity.graphClicked(_position);
-        	
-//          AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//          builder.setTitle("Infrmation");
-//          builder.setMessage("Aspirin is good!!");
-//          
-//          AlertDialog alert = builder.create();
-//          alert.show();
 
+        	activity.graphClicked(_position);
+      }
+    	
+    }
+     
+    private class InfoClickHandler implements View.OnClickListener {
+    	private int _position;
+    	public InfoClickHandler(int position) {
+    		_position = position;
+    	}
+        public void onClick(View v) {
+        	
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            
+            String title = activity.getTestTitle(_position);
+            
+            builder.setTitle(title!=null ? title : "Infrmation");
+            
+            String desc = activity.getTestDescription(_position);
+            
+            if(desc == null)
+            	return;
+            
+            builder.setMessage(desc);
+            
+            AlertDialog alert = builder.create();
+            alert.show();
       }
     	
     }
