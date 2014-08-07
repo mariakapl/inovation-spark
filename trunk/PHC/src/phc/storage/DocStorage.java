@@ -177,9 +177,8 @@ public class DocStorage implements IDocStorage {
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
 			List<String> tags = Utils.readTextFile(tagFile);
 			
-			SimpleDateFormat df = new SimpleDateFormat(DateFormat);
 			Date date = new Date(image.lastModified());     
-			String reportDate = df.format(date);
+			String reportDate = Utils.getDateString(date);
 			
 			DocResult res = new DocResult(
 				new ScannedDoc(name, bitmap, tags, ocr), id, reportDate);

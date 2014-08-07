@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class BloodTestActivity extends Activity {
 
 	public static final String DOCID_EXTRA = "doc_id";
-	private static final String BLOOD_TEST_EXTRA = "blood_test_extra";
+	public static final String BLOOD_TEST_EXTRA = "blood_test_extra";
 	InformationAdapter adapter;
 	ListView listView1;
 	List<BloodTest> bloodResultList = null;
