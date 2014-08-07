@@ -14,7 +14,8 @@ import java.util.List;
 
 public class Utils {
 	public static final String DateFormat = "MM/dd/yyyy HH:mm:ss";
-	
+	public static final String DateFormatShort = "MM/yyyy";
+
 	public static String join(List<String> lines, String separator) {
 		StringBuilder sb = new StringBuilder();
 		for (String line : lines)
@@ -58,6 +59,11 @@ public class Utils {
 		return true;
 	}
 	
+	public static String getDateStringShort(Date date)
+	{
+		SimpleDateFormat df = new SimpleDateFormat(DateFormatShort);
+		return df.format(date);
+	}
 	public static String getDateString(Date date)
 	{
 		SimpleDateFormat df = new SimpleDateFormat(DateFormat);
