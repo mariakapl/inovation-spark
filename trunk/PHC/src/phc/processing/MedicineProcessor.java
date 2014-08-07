@@ -118,4 +118,9 @@ public class MedicineProcessor implements IDocProcessor {
 	{
 		return readData(context, med);
 	}
+	
+	@Override
+	public void copyAllAssets(Context context) {
+		Utils.copyAllAssets(context, "app_Medicine", getDir(context));
+	}
 }

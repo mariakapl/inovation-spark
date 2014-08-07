@@ -348,4 +348,13 @@ public class DocStorage implements IDocStorage {
 		List<Medicine> meds = BloodTestProcessor.readAssociatedMedicineData(context, testName);
 		return meds;
 	}
+	@Override
+	public void resetDatabase(Context context) {
+		clear();
+		Utils.copyAllAssets(context, "app_OCR", _ocrDir);
+		Utils.copyAllAssets(context, "app_Tags", _tagsDir);
+		Utils.copyAllAssets(context, "app_Images", _imagesDir);
+		Utils.copyAllAssets(context, "app_Names", _namesDir);
+		DocumentProcessor.instance().copyAllAssets(context);	
+	}
 }

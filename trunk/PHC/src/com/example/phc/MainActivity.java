@@ -1,11 +1,8 @@
 package com.example.phc;
 
 import phc.storage.DocStorage;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -45,6 +42,9 @@ public class MainActivity extends ActionBarActivity {
         case R.id.action_settings:
         	DocStorage.get().clear();
             return true;
+        case R.id.action_resetDatabase:
+        	DocStorage.get().resetDatabase(this);
+        	return true;
         case R.id.action_info:
             OpenInfo();
             return true;

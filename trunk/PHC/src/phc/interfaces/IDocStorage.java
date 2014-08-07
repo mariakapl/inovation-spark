@@ -34,4 +34,6 @@ public interface IDocStorage
 	List<BloodTest> getBloodTestHistory(Context context, String name);
 	// Get medicine history associated with a blood test, sorted by date
 	List<Medicine> getBloodTestAssociatedHistory(Context context, String testName);
+	// Reset the database to the built-in one
+	void resetDatabase(Context context);
 }

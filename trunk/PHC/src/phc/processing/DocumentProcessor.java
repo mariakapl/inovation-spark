@@ -55,4 +55,9 @@ public class DocumentProcessor {
 		for (IDocProcessor p : processors)
 			p.readDataForDoc(context, doc);
 	}
+
+	public void copyAllAssets(Context context) {
+		for (IDocProcessor processor : _processorByTag.values())
+				processor.copyAllAssets(context);
+	}
 }
