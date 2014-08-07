@@ -1,5 +1,6 @@
 package com.example.phc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import phc.objects.BloodTest;
@@ -17,20 +18,34 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class BloodTestActivity extends Activity {
 
-	MyAdpater adapter;
+	public static final String DOCID_EXTRA = "doc_id";
+	InformationAdapter adapter;
 	ListView listView1;
-	
+	List<BloodTest> bloodResultList = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_blood_test);
 		
-	    String id = getIntent().getStringExtra(RecordListActivity.DOCID_EXTRA);
-	    DocResult doc = DocStorage.get().getDocById(id);
-	    if(doc == null)
-	    	return;
+		DocResult doc = null;
+		
+	    String id = getIntent().getStringExtra(BloodTestActivity.DOCID_EXTRA);
 	    
-	    final List<BloodTest> bloodResultList = doc.bloodTests();
+	    if(id.equals("-1")) //test
+	    {
+	    	bloodResultList = new ArrayList<BloodTest>();
+	    	//public BloodTest(String name, String docId, String value, String units, String date)
+	    	bloodResultList.add(new BloodTest("lala","-1.0", "1.0", "mg/l", "9/3/2014"));
+	    	bloodResultList.add(new BloodTest("lala2","-1.0", "1.0", "mg/l", "10/3/2014"));
+	    }
+	    else
+	    {
+	    	doc = DocStorage.get().getDocById(id);
+		    if(doc == null)
+		    	return;
+		    
+		    bloodResultList =  doc.bloodTests();
+	    }
 	    
 	    String[] array = new String[bloodResultList.size()];
 	    
@@ -41,7 +56,7 @@ public class BloodTestActivity extends Activity {
 	    	i++;
 	    }
 	    
-	    adapter = new MyAdpater(this,array);
+	    adapter=  new InformationAdapter(this,array);
 	    
 	    ListView listView1 = (ListView) findViewById(android.R.id.list);
         
