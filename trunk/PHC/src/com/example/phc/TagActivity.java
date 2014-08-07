@@ -29,6 +29,8 @@ import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 public class TagActivity extends FragmentActivity {
 	
+	public static
+	final String DOCID_EXTRA = "doc_id";
 	ExpandableListView expListView = null;
 	ArrayList<String> existingTags = null;
 	HashMap<String, List<String>> listDataChild = null;
@@ -165,6 +167,7 @@ public class TagActivity extends FragmentActivity {
 		Class nextActivityClass = WorkflowManager.nextActivity(result);
 		Intent intent = new Intent(TagActivity.this, nextActivityClass);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.putExtra(DOCID_EXTRA, result.id());
 	    startActivity(intent);
 	}
 }
