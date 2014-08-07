@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
         AlertDialog alertDialog = new AlertDialog.Builder(this).create(); //Read Update
         alertDialog.setTitle("Clinical Summary");
-        alertDialog.setMessage("Name: Haim Levi \nAge: 46\nMedication:\n   Aspirin\n   Medicine1\n   Medication2");
+        alertDialog.setMessage("Name: Haim Levi \nAge: 54\nMedication:\n   Aspirin\n");
         alertDialog.show();  //<-- See This!
 	}
 
@@ -73,11 +73,13 @@ public class MainActivity extends ActionBarActivity {
     public void onClickShare(View view)
     {
         // Do something in response to button
-    	Intent intent = new Intent(this, GraphActivity.class);
+    	//Intent intent = new Intent(this, GraphActivity.class);
+//    	Intent intent = new Intent(this, BloodTestActivity.class);
+//    	intent.putExtra("doc_id", "-1");
     	//EditText editText = (EditText) findViewById(R.id.scandoc);
     	//String message = editText.getText().toString();
-    //	intent.putExtra(EXTRA_MESSAGE, message);
-    	startActivity(intent);
+    //	
+    	//startActivity(intent);
     }
     
     public void onClickHealthportal(View view)
