@@ -128,7 +128,7 @@ abstract public class GraphView extends LinearLayout {
 			paint.setTextAlign(Align.CENTER);
 			
 			float size = paint.getTextSize();
-			paint.setTextSize(50);
+			paint.setTextSize(25);
 			
 			canvas.drawText(title, (graphwidth / 2) + horstart, border - 20, paint);
 
