@@ -73,7 +73,7 @@ public class BloodTestActivity extends Activity {
 				List<BloodTest> tests = DocStorage.get().getBloodTestHistory(
 					BloodTestActivity.this, test);
 				for (BloodTest t : tests)
-					System.err.println(test.Name + "," + test.Value + "," + test.Units);
+					System.err.println(t.Name + "," + t.Value + "," + t.Units);
 				List<Medicine> meds = DocStorage.get().getBloodTestAssociatedHistory(
 					BloodTestActivity.this, test);
 				for (Medicine m : meds)

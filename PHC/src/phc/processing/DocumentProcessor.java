@@ -49,4 +49,10 @@ public class DocumentProcessor {
 		}
 		return processors;
 	}
+
+	public void readDataForDoc(Context context, DocResult doc) {
+		List<IDocProcessor> processors = getDocProcessors(doc);
+		for (IDocProcessor p : processors)
+			p.readDataForDoc(context, doc);
+	}
 }

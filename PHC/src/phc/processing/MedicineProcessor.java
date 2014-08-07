@@ -1,20 +1,14 @@
 package phc.processing;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import phc.objects.BloodTest;
 import phc.objects.DocResult;
 import phc.objects.Medicine;
-import phc.storage.DocStorage;
 import phc.utils.Utils;
 import android.content.Context;
 
@@ -44,6 +38,22 @@ public class MedicineProcessor implements IDocProcessor {
 		if (! dir.exists())
 			dir.mkdir(); 
 		return dir;
+	}
+	
+	@Override
+	public void readDataForDoc(Context context, DocResult doc)
+	{
+		for (String medicine : _medicine)
+		{
+			List<Medicine> all = readData(context, medicine);
+			if (all == null)
+				continue;
+			for (Medicine m : all)
+			{
+				if (m.DocId.equals(doc.id()))
+					doc.addMedicine(m);
+			}
+		}
 	}
 	
 	public boolean process(Context context, DocResult doc)
@@ -87,7 +97,7 @@ public class MedicineProcessor implements IDocProcessor {
 			new File(dir, med + TXT_EXTENSION).delete();
 	}
 
-	public static List<Medicine> getMedicineHistory(Context context, String med)
+	private static List<Medicine> readData(Context context, String med)
 	{
 		File dir = getDir(context);
 		File file = new File(dir, med + TXT_EXTENSION);
@@ -102,5 +112,10 @@ public class MedicineProcessor implements IDocProcessor {
 			values.add(bt);
 		}
 		return values;
+	}
+
+	public static List<Medicine> getMedicineHistory(Context context, String med)
+	{
+		return readData(context, med);
 	}
 }
