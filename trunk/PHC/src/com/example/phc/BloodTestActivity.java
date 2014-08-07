@@ -37,9 +37,10 @@ public class BloodTestActivity extends Activity {
 	    for(BloodTest test : bloodResultList)
 	    {
 	    	array[i] = test.Name + " " + test.Value + " " + test.Units;
+	    	i++;
 	    }
 	    
-	    adapter=  new MyAdpater(this,array);
+	    adapter = new MyAdpater(this,array);
 	    
 	    ListView listView1 = (ListView) findViewById(android.R.id.list);
         
