@@ -1,7 +1,6 @@
 package phc.processing;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,5 +159,10 @@ public class BloodTestProcessor implements IDocProcessor {
 			}
 		});
 		return meds;
+	}
+
+	@Override
+	public void copyAllAssets(Context context) {
+		Utils.copyAllAssets(context, "app_BloodTest", getDir(context));
 	}
 }
