@@ -6,10 +6,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Utils {
+	public static final String DateFormat = "MM/dd/yyyy HH:mm:ss";
 	
 	public static String join(List<String> lines, String separator) {
 		StringBuilder sb = new StringBuilder();
@@ -54,6 +58,20 @@ public class Utils {
 		return true;
 	}
 	
-
+	public static String getDateString(Date date)
+	{
+		SimpleDateFormat df = new SimpleDateFormat(DateFormat);
+		return df.format(date);
+	}
+	
+	public static Date getDateFromString(String s)
+	{
+		SimpleDateFormat df = new SimpleDateFormat(DateFormat);
+		try {
+			return df.parse(s);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
 	
 }

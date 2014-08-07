@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -90,11 +91,9 @@ public class BloodTestProcessor implements IDocProcessor {
 		Collections.sort(values, new Comparator<BloodTest>() {
 			@Override
 			public int compare(BloodTest bt1, BloodTest bt2) {
-				try {
-					return df.parse(bt1.Date).compareTo(df.parse(bt2.Date));
-				} catch (ParseException e) {
-					return 0;
-				}
+				Date d1 = Utils.getDateFromString(bt1.Date);
+				Date d2 = Utils.getDateFromString(bt2.Date);
+				return d1.compareTo(d2);
 			}
 		});
 		return values;
@@ -150,15 +149,14 @@ public class BloodTestProcessor implements IDocProcessor {
 				continue;
 			meds.addAll(medList);
 		}
-		final SimpleDateFormat df = new SimpleDateFormat(DocStorage.DateFormat);
 		Collections.sort(meds, new Comparator<Medicine>() {
 			@Override
 			public int compare(Medicine m1, Medicine m2) {
-				try {
-					return df.parse(m1.StartDate).compareTo(df.parse(m2.StartDate));
-				} catch (ParseException e) {
+				Date d1 = Utils.getDateFromString(m1.StartDate);
+				Date d2 = Utils.getDateFromString(m2.StartDate);
+				if (d1 == null || d2 == null)
 					return 0;
-				}
+				return d1.compareTo(d2);
 			}
 		});
 		return meds;
