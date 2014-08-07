@@ -87,21 +87,24 @@ public class GraphActivity extends Activity {
 	    GraphViewSeries bloodTestSeries = new GraphViewSeries(
 	    	testName, new GraphViewSeriesStyle(Color.BLUE, 1), bloodTestDataArray);
 	    
-	    List<GraphViewData> medicineData = new ArrayList<GraphViewData>();
-		String medicineName = "Medicine";
-	    for (Medicine m : meds)
-	    {
-			Date d = Utils.getDateFromString(m.StartDate);
-			double xvalue = ((double)(getDayDiff(minDate, d)) / totalDays);
-			double diff = (double)m.NumDays / totalDays;
-	    	medicineData.add(new GraphViewData(xvalue, min));
-	    	medicineData.add(new GraphViewData(xvalue + diff, min));
-	    	medicineName = m.Name;
-	    }
-		GraphViewData [] medicineDataArray = new GraphViewData[medicineData.size()];
-		medicineData.toArray(medicineDataArray);
-	    GraphViewSeries medicineSeries = new GraphViewSeries(
-	    	medicineName, new GraphViewSeriesStyle(Color.RED, 5), medicineDataArray);
+		if (meds != null) {
+		    List<GraphViewData> medicineData = new ArrayList<GraphViewData>();
+			String medicineName = "Medicine";
+		    for (Medicine m : meds)
+		    {
+				Date d = Utils.getDateFromString(m.StartDate);
+				double xvalue = ((double)(getDayDiff(minDate, d)) / totalDays);
+				double diff = (double)m.NumDays / totalDays;
+		    	medicineData.add(new GraphViewData(xvalue, min));
+		    	medicineData.add(new GraphViewData(xvalue + diff, min));
+		    	medicineName = m.Name;
+		    }
+			GraphViewData [] medicineDataArray = new GraphViewData[medicineData.size()];
+			medicineData.toArray(medicineDataArray);
+		    GraphViewSeries medicineSeries = new GraphViewSeries(
+		    	medicineName, new GraphViewSeriesStyle(Color.RED, 5), medicineDataArray);
+		    graphView.addSeries(medicineSeries); // data
+		}
 	    graphView.setShowLegend(true);
 	    graphView.getGraphViewStyle().setLegendWidth(200);
 	    graphView.getGraphViewStyle().setNumHorizontalLabels(4);
@@ -133,7 +136,6 @@ public class GraphActivity extends Activity {
 	    ((LineGraphView) graphView).setDrawDataPoints(true);
 	    
 	    graphView.addSeries(bloodTestSeries); // data
-	    graphView.addSeries(medicineSeries); // data
 	   
 	    LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
 	    layout.addView(graphView);

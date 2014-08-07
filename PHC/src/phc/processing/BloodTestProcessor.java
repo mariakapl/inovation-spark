@@ -141,6 +141,8 @@ public class BloodTestProcessor implements IDocProcessor {
 	public static List<Medicine> readAssociatedMedicineData(Context context,
 			String name) {
 		List<String> list = _associatedMedicineHash.get(name);
+		if (list == null || list.size() == 0)
+			return null;
 		List<Medicine> meds = new ArrayList<Medicine>();
 		for (String med : list) {
 			List<Medicine> medList = MedicineProcessor.getMedicineHistory(context, med);
