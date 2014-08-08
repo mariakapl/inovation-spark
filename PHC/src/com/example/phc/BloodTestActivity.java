@@ -60,16 +60,7 @@ public class BloodTestActivity extends Activity {
 		    bloodResultList =  doc.bloodTests();
 	    }
 	    
-	    String[] array = new String[bloodResultList.size()];
-	    
-	    int i=0;
-	    for(BloodTest test : bloodResultList)
-	    {
-	    	array[i] = test.Name + " " + test.Value + " " + test.Units;
-	    	i++;
-	    }
-	    
-	    adapter=  new InformationAdapter(this,array);
+	    adapter=  new InformationAdapter(this, bloodResultList);
 	    
 	    ListView listView1 = (ListView) findViewById(android.R.id.list);
         

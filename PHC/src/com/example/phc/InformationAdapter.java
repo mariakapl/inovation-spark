@@ -1,27 +1,28 @@
 package com.example.phc;
 
-import android.app.Activity;
+import java.util.List;
+
+import phc.objects.BloodTest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class InformationAdapter extends BaseAdapter {
     private BloodTestActivity activity;
     private static LayoutInflater inflater=null;
-    private String[] arr;
+    private List<BloodTest> _tests;
     
     
-    public InformationAdapter(BloodTestActivity a, String[] array) {
+    public InformationAdapter(BloodTestActivity a, List<BloodTest> tests) {
         activity = a;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        arr = array;
+        _tests = tests;
     }
  
  
@@ -51,7 +52,10 @@ public class InformationAdapter extends BaseAdapter {
  		
 
         // Setting all values in listview
-        title.setText(arr[position]);
+ 		BloodTest bt = _tests.get(position);
+        title.setText(bt.toString());
+        if (!bt.isNormalValue())
+        	title.setTextColor(Color.RED);
 
         return vi;
     }
@@ -97,13 +101,13 @@ public class InformationAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return arr.length;
+		return _tests.size();
 	}
 
 
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return arr[position];
+		return _tests.get(position);
 	}
 }

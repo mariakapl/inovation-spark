@@ -22,7 +22,7 @@ import android.content.Context;
 public class BloodTestProcessor implements IDocProcessor {
 
 	private static final String TXT_EXTENSION = ".txt";
-	private static final String HEMOGLOBIN = "Hemoglobin";
+	public static final String HEMOGLOBIN = "Hemoglobin";
 	
 	private static final String [] _tests = {
 		HEMOGLOBIN, "Glucose", "Platelets"
