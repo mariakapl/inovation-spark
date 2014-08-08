@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
         AlertDialog alertDialog = new AlertDialog.Builder(this).create(); //Read Update
         alertDialog.setTitle("Clinical Summary");
-        alertDialog.setMessage("Name: Haim Levi \nAge: 54\nMedication:\n   Aspirin\n");
+        alertDialog.setMessage("Name: Haim Levi \nAge: 54\nMedication:\n	Aspirin\n	Repaglinide\n	Januet\n");
         alertDialog.show();  //<-- See This!
 	}
 
