@@ -1,4 +1,6 @@
-Hemoglobin 12 g/dl
-Glucose 82 mg/dl
+Rx: aspirin 325 mg oral tab
+Rx Inst: 1 tab per day
+Supply: 180 tab(s)
+Refill: 0
 
-Platelets 175 mid/3'10
+Prescribed by: David Miller, MD
