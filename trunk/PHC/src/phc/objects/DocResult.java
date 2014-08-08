@@ -1,10 +1,7 @@
 package phc.objects;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -31,7 +28,7 @@ public class DocResult implements Parcelable {
 		return _id;
 	}
 	public String date() {
-		return _date.toString();
+		return _date;
 	}
 	
 	public void addBloodTest(BloodTest test)
