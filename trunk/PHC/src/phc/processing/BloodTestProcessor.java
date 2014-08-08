@@ -83,6 +83,8 @@ public class BloodTestProcessor implements IDocProcessor {
 		List<BloodTest> values = new ArrayList<BloodTest>();
 		for (String line : lines) {
 			String [] parts = line.split("\\t");
+			if (parts.length < 4)
+				continue;
 			BloodTest bt = new BloodTest(test, parts[0], parts[1], parts[2], parts[3]);
 			values.add(bt);
 		}
