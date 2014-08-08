@@ -1,7 +1,6 @@
-Pmcription Details:
+Blood Test - Haim Levi
 
-Rx: aspirin 325 mg oral tab
-Rx Inst: 1 tab per day
-
-Supply: 30tab(s)
-Refill: 0
+Hemoglobin 12.1 g/dl
+Glucose 102 mg/dl
+Platelets 167 mid/3*10
+HbAlC 7.0 ml%
