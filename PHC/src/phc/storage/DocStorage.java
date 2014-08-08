@@ -3,7 +3,6 @@ package phc.storage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -51,6 +50,7 @@ public class DocStorage implements IDocStorage {
 	private File _imagesDir;
 	private File _tagsDir;
 	private File _ocrDir;
+	private File _datesDir;
 	private File _tagTreeFile;
 
 	private HashMap<String, HashSet<String>> _docsByTag;	// tag -> doc ids
@@ -66,6 +66,15 @@ public class DocStorage implements IDocStorage {
 		return (_instance = new DocStorage(context));
 	}
 	
+	private void deleteDir(File dir) {
+		if (dir.exists() && dir.isDirectory()) {
+			String[] children = dir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            new File(dir, children[i]).delete();
+	        }
+		}		
+	}
+	
 	//remove all the files :(
 	@Override
 	public void clear() {
@@ -73,33 +82,11 @@ public class DocStorage implements IDocStorage {
 		if (_tagTreeFile.exists())
 			_tagTreeFile.delete();
 		
-		if (_namesDir.exists() && _namesDir.isDirectory()) {
-			String[] children = _namesDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_namesDir, children[i]).delete();
-	        }
-		}
-		
-		if (_imagesDir.exists() && _imagesDir.isDirectory()) {
-			String[] children = _imagesDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_imagesDir, children[i]).delete();
-	        }
-		}
-		
-		if (_tagsDir.exists() && _tagsDir.isDirectory()) {
-			String[] children = _tagsDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_tagsDir, children[i]).delete();
-	        }
-		}
-		
-		if (_ocrDir.exists() && _ocrDir.isDirectory()) {
-			String[] children = _ocrDir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            new File(_ocrDir, children[i]).delete();
-	        }
-		}
+		deleteDir(_namesDir);
+		deleteDir(_imagesDir);
+		deleteDir(_tagsDir);
+		deleteDir(_ocrDir);
+		deleteDir(_datesDir);
 		
 		DocumentProcessor.instance().clear(_context);
 	}
@@ -113,7 +100,8 @@ public class DocStorage implements IDocStorage {
 		_imagesDir = context.getDir("Images", Context.MODE_PRIVATE);
 		_tagsDir = context.getDir("Tags", Context.MODE_PRIVATE);
 		_ocrDir = context.getDir("OCR", Context.MODE_PRIVATE);
-		
+		_datesDir = context.getDir("Dates", Context.MODE_PRIVATE);
+
 		_docsByTag = new HashMap<String, HashSet<String>>();
 		_tagsByDoc = new HashMap<String, HashSet<String>>();
 		_docsById = new HashMap<String, DocResult>();
@@ -176,12 +164,11 @@ public class DocStorage implements IDocStorage {
 			String ocr = Utils.readTextFileAsString(ocrFile);
 			File tagFile = new File(_tagsDir, id + TXT_EXTENSION);
 			List<String> tags = Utils.readTextFile(tagFile);
-			
-			Date date = new Date(image.lastModified());     
-			String reportDate = Utils.getDateString(date);
+			File datesFile = new File(_datesDir, id + TXT_EXTENSION);
+			String date = Utils.readTextFileAsString(datesFile);
 			
 			DocResult res = new DocResult(
-				new ScannedDoc(name, bitmap, tags, ocr), id, reportDate);
+				new ScannedDoc(name, bitmap, tags, ocr), id, date);
 			DocumentProcessor.instance().readDataForDoc(_context, res);
 			_docsById.put(id, res);
 		}
@@ -210,6 +197,8 @@ public class DocStorage implements IDocStorage {
 			File ocr = new File(_ocrDir, id + TXT_EXTENSION);
 			Utils.writeTextFile(ocr, doc.ocr());
 		}
+		File date = new File(_datesDir, id + TXT_EXTENSION);
+		Utils.writeTextFile(date, Utils.getDateString(new Date()));
 		if (doc.tags() != null) {
 			StringBuilder sb = new StringBuilder();
 			for (String tag : doc.tags()) {
@@ -260,9 +249,11 @@ public class DocStorage implements IDocStorage {
 
 	@Override
 	public boolean deleteDoc(DocResult doc) {
+		new File(_namesDir, doc.id() + TXT_EXTENSION).delete();
 		new File(_imagesDir, doc.id() + BITMAP_EXTENSION).delete();
 		new File(_tagsDir, doc.id() + TXT_EXTENSION).delete();
 		new File(_ocrDir, doc.id() + TXT_EXTENSION).delete();
+		new File(_datesDir, doc.id() + TXT_EXTENSION).delete();
 		return false;
 	}
 	
@@ -355,6 +346,7 @@ public class DocStorage implements IDocStorage {
 		Utils.copyAllAssets(context, "app_Tags", _tagsDir);
 		Utils.copyAllAssets(context, "app_Images", _imagesDir);
 		Utils.copyAllAssets(context, "app_Names", _namesDir);
+		Utils.copyAllAssets(context, "app_Dates", _datesDir);
 		DocumentProcessor.instance().copyAllAssets(context);	
 	}
 }
