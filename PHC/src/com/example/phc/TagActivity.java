@@ -165,7 +165,6 @@ public class TagActivity extends FragmentActivity {
 		Toast.makeText(this, "Document saved", Toast.LENGTH_SHORT).show();
 		Class nextActivityClass = WorkflowManager.nextActivity(result);
 		Intent intent = new Intent(TagActivity.this, nextActivityClass);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		intent.putExtra(DOCID_EXTRA, result.id());
 	    startActivity(intent);
 	}
