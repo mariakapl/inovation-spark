@@ -61,8 +61,12 @@ public class RecordListActivity extends ListActivity {
 //    	  docs.addAll(_docStorage.queryDocsByTags(Arrays.asList(tag)));
 //      }
 
-      if(parentTag != null)
-    	  docs.addAll(_docStorage.queryDocsByTags(Arrays.asList(parentTag)));
+      if(parentTag != null) {
+    	  ArrayList<DocResult> docsByTag = new ArrayList<DocResult>(
+    			  DocStorage.get().queryDocsByTags(Arrays.asList(parentTag)));
+    	  Collections.reverse(docsByTag);
+    	  docs.addAll(docsByTag);
+      }
       
       adapter =  new RecordAdapter(this, R.layout.record_row, docs, tags == null ? 0 : tags.size());
       this.setListAdapter(adapter);
