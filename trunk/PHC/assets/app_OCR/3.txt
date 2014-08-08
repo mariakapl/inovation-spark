@@ -1,6 +1,6 @@
 Rx: aspirin 325 mg oral tab
 Rx Inst: 1 tab per day
-Supply: 180 tab(s)
+Supply: 240 tab(s)
 Refill: 0
 
 Prescribed by: David Miller, MD
