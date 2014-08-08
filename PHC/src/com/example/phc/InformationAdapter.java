@@ -37,7 +37,7 @@ public class InformationAdapter extends BaseAdapter {
         TextView title = (TextView)vi.findViewById(R.id.title); // title
 
  		ImageButton button = 
- 				(ImageButton)vi.findViewById( R.id.imageButton1);
+ 				(ImageButton)vi.findViewById( R.id.infoButton);
  		
  		InfoClickHandler info_h = new InfoClickHandler(position);
  		button.setOnClickListener(info_h);
@@ -45,8 +45,7 @@ public class InformationAdapter extends BaseAdapter {
  	   // button.setOnClickListener(imgButtonInfoHandler);
  	    
  		ImageButton graphButton = 
- 				(ImageButton)vi.findViewById( R.id.imageButton2);
- 		
+ 				(ImageButton)vi.findViewById( R.id.graphButton);
  		GraphClickHandler gh = new GraphClickHandler(position);
  		graphButton.setOnClickListener(gh);
  		
@@ -57,20 +56,6 @@ public class InformationAdapter extends BaseAdapter {
         return vi;
     }
     
-//    View.OnClickListener imgButtonInfoHandler = new View.OnClickListener() {
-//
-//        public void onClick(View v) {
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//            builder.setTitle("Infrmation");
-//            builder.setMessage("Aspirin is good!!");
-//            
-//            AlertDialog alert = builder.create();
-//            alert.show();
-//
-//        }
-//    };
-
     private class GraphClickHandler implements View.OnClickListener {
     	private int _position;
     	public GraphClickHandler(int position) {

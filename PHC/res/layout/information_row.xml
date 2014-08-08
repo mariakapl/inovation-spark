@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
@@ -17,17 +17,7 @@
      />
 
  <ImageButton
-     android:id="@+id/imageButton1"
-     android:layout_width="40dip"
-     android:layout_height="40dip"
-     android:focusable="false"
-     android:padding="0dp"
-     android:scaleType="fitXY"
-     android:src="@drawable/info"
-     />
- 
- <ImageButton
-     android:id="@+id/imageButton2"
+     android:id="@+id/graphButton"
      android:layout_width="40dip"
      android:layout_height="40dip"
      android:focusable="false"
@@ -37,5 +27,16 @@
      android:layout_alignParentRight="true"
      />
  
-
-</LinearLayout>
+ <ImageButton
+     android:id="@+id/infoButton"
+     android:layout_width="40dip"
+     android:layout_height="40dip"
+     android:focusable="false"
+     android:padding="0dp"
+     android:scaleType="fitXY"
+     android:src="@drawable/info"
+     android:layout_toLeftOf="@id/graphButton"
+     />
+ 
+ 
+</RelativeLayout>
